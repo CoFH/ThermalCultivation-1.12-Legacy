@@ -1,0 +1,30 @@
+{
+	"type": "thermalcultivation:upgrade_shaped",
+	"result": {
+		"item": "thermalcultivation:watering_can",
+		"data": 2
+	},
+	"pattern": [
+		" R ",
+		"IXI",
+		"RYR"
+	],
+	"key": {
+		"I": {
+			"type": "forge:ore_dict",
+			"ore": "ingotElectrum"
+		},
+		"R": {
+			"item": "thermalfoundation:fertilizer",
+			"data": 0
+		},
+		"X": {
+			"item": "thermalcultivation:watering_can",
+			"data": 1
+		},
+		"Y": {
+			"type": "forge:ore_dict",
+			"ore": "blockHardenedGlass"
+		}
+	}
+}

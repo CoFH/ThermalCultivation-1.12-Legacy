@@ -1,0 +1,5 @@
+{
+	"recipes": {
+		"upgrade_shaped": "cofh.core.util.crafting.ShapedUpgradeRecipeFactory"
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"textures": {
+			"layer0": "blocks/dirt"
+		},
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"standard0": {
+				"textures": {
+					"layer0": "thermalcultivation:items/watering_can/watering_can_0"
+				}
+			},
+			"standard1": {
+				"textures": {
+					"layer0": "thermalcultivation:items/watering_can/watering_can_1"
+				}
+			},
+			"standard2": {
+				"textures": {
+					"layer0": "thermalcultivation:items/watering_can/watering_can_2"
+				}
+			},
+			"standard3": {
+				"textures": {
+					"layer0": "thermalcultivation:items/watering_can/watering_can_3"
+				}
+			},
+			"standard4": {
+				"textures": {
+					"layer0": "thermalcultivation:items/watering_can/watering_can_4"
+				}
+			},
+			"creative": {
+				"textures": {
+					"layer0": "thermalcultivation:items/watering_can/watering_can_c"
+				}
+			}
+		}
+	}
+}
