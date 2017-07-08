@@ -1,0 +1,61 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all",
+		"transform": "forge:default-block"
+	},
+	"variants": {
+		"tilled=false,type=basic": [{
+			"textures": {
+				"all": "thermalcultivation:blocks/soil/soil_basic"
+			}
+		}],
+		"tilled=false,type=rich": [{
+			"textures": {
+				"all": "thermalcultivation:blocks/soil/soil_rich"
+			}
+		}],
+		"tilled=false,type=flux": [{
+			"textures": {
+				"all": "thermalcultivation:blocks/soil/soil_flux"
+			}
+		}],
+		"tilled=false,type=mana": [{
+			"textures": {
+				"all": "thermalcultivation:blocks/soil/soil_mana"
+			}
+		}],
+		"tilled=true,type=basic": [{
+			"model": "farmland",
+			"textures": {
+				"particle": "thermalcultivation:blocks/soil/soil_basic",
+				"dirt": "thermalcultivation:blocks/soil/soil_basic",
+				"top": "thermalcultivation:blocks/soil/soil_basic_top"
+			}
+		}],
+		"tilled=true,type=rich": [{
+			"model": "farmland",
+			"textures": {
+				"particle": "thermalcultivation:blocks/soil/soil_rich",
+				"dirt": "thermalcultivation:blocks/soil/soil_rich",
+				"top": "thermalcultivation:blocks/soil/soil_rich_top"
+			}
+		}],
+		"tilled=true,type=flux": [{
+			"model": "farmland",
+			"textures": {
+				"particle": "thermalcultivation:blocks/soil/soil_flux",
+				"dirt": "thermalcultivation:blocks/soil/soil_flux",
+				"top": "thermalcultivation:blocks/soil/soil_flux_top"
+			}
+		}],
+		"tilled=true,type=mana": [{
+			"model": "farmland",
+			"textures": {
+				"particle": "thermalcultivation:blocks/soil/soil_mana",
+				"dirt": "thermalcultivation:blocks/soil/soil_mana",
+				"top": "thermalcultivation:blocks/soil/soil_mana_top"
+			}
+		}]
+	}
+}

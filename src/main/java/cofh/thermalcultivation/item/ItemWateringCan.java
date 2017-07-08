@@ -3,13 +3,17 @@ package cofh.thermalcultivation.item;
 import cofh.api.fluid.IFluidContainerItem;
 import cofh.api.item.IMultiModeItem;
 import cofh.core.init.CoreEnchantments;
+import cofh.core.init.CoreProps;
 import cofh.core.item.IEnchantableItem;
 import cofh.core.item.ItemMulti;
 import cofh.core.key.KeyBindingItemMultiMode;
 import cofh.core.util.RayTracer;
 import cofh.core.util.capabilities.FluidContainerItemWrapper;
 import cofh.core.util.core.IInitializer;
-import cofh.core.util.helpers.*;
+import cofh.core.util.helpers.ChatHelper;
+import cofh.core.util.helpers.ItemHelper;
+import cofh.core.util.helpers.ServerHelper;
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalcultivation.ThermalCultivation;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.block.Block;
@@ -197,12 +201,18 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	}
 
 	@Override
+	public int getRGBDurabilityForDisplay(ItemStack stack) {
+
+		return CoreProps.RGB_DURABILITY_WATER;
+	}
+
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 
 		if (stack.getTagCompound() == null) {
-			EnergyHelper.setDefaultEnergyTag(stack, 0);
+			setDefaultTag(stack, 0);
 		}
-		return 1D - ((double) stack.getTagCompound().getInteger("Water") / (double) getCapacity(stack));
+		return 1.0D - ((double) stack.getTagCompound().getInteger("Water") / (double) getCapacity(stack));
 	}
 
 	@Override
@@ -234,14 +244,13 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 			return EnumActionResult.FAIL;
 		}
 		ItemStack stack = player.getHeldItem(hand);
-		if (!player.canPlayerEdit(pos.offset(facing), facing, stack) || !player.capabilities.isCreativeMode || getWaterStored(stack) < WATER_PER_USE[0]) {
+		if (!player.canPlayerEdit(pos.offset(facing), facing, stack) || getWaterStored(stack) < WATER_PER_USE[0]) {
 			return EnumActionResult.FAIL;
 		}
-		if (player instanceof FakePlayer) {
+		if (player instanceof FakePlayer && !allowFakePlayers) {
 			return EnumActionResult.FAIL;
 		}
 		int radius = getRadius(stack);
-
 		int x = pos.getX();
 		double y = pos.getY() + 1.3D;
 		int z = pos.getZ();
@@ -251,7 +260,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 				world.spawnParticle(EnumParticleTypes.WATER_DROP, i + world.rand.nextFloat(), y, k + world.rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 			}
 		}
-
 		Iterable<BlockPos.MutableBlockPos> area = BlockPos.getAllInBoxMutable(pos.add(-radius, -1, -radius), pos.add(radius, 1, radius));
 		for (BlockPos scan : area) {
 			IBlockState state = world.getBlockState(scan);
@@ -459,10 +467,15 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	private static void config() {
 
 		String category = "Item.WateringCan";
+		String comment;
+
 		enable = ThermalCultivation.CONFIG.get(category, "Enable", true);
 
+		comment = "If TRUE, Fake Players (such as Autonomous Activators) will be able to use the Watering Can.";
+		allowFakePlayers = ThermalCultivation.CONFIG.getConfiguration().getBoolean("AllowFakePlayers", category, allowFakePlayers, comment);
+
 		int capacity = CAPACITY_BASE;
-		String comment = "Adjust this value to change the amount of Water (in mB) stored by a Basic Watering Can. This base value will scale with item level.";
+		comment = "Adjust this value to change the amount of Water (in mB) stored by a Basic Watering Can. This base value will scale with item level.";
 		capacity = ThermalCultivation.CONFIG.getConfiguration().getInt("BaseCapacity", category, capacity, capacity / 5, capacity * 5, comment);
 
 		for (int i = 0; i < CAPACITY.length; i++) {
@@ -516,6 +529,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	public static final int[] WATER_PER_USE = { 50, 100, 150, 200, 250 };
 
 	public static boolean enable = true;
+	public static boolean allowFakePlayers = false;
 
 	/* REFERENCES */
 	public static ItemStack wateringCanBasic;
