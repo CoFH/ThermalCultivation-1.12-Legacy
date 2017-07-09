@@ -4,6 +4,8 @@ import cofh.core.block.BlockCore;
 import cofh.core.render.IModelRegister;
 import cofh.core.util.core.IInitializer;
 import cofh.thermalcultivation.ThermalCultivation;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
@@ -23,6 +25,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
@@ -46,6 +49,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		setUnlocalizedName("soil");
 		setCreativeTab(ThermalCultivation.tabCommon);
 
+		setSoundType(SoundType.GROUND);
 		setTickRandomly(true);
 		setLightOpacity(255);
 	}
@@ -87,6 +91,23 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 
+		if (!hasCrop(world, pos)) {
+			return;
+		}
+		switch(state.getValue(VARIANT)) {
+			case BASIC:
+				break;
+			case RICH:
+				if (world.rand.nextInt(100) < 25) {
+					break;
+				}
+			case FLUX:
+				if (world.rand.nextInt(100) < 25) {
+					break;
+				}
+				BlockPos up = pos.up();
+				world.scheduleBlockUpdate(up, world.getBlockState(up).getBlock(), 0, 1);
+		}
 	}
 
 	@Override
@@ -131,6 +152,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		return state.getValue(VARIANT).getLight();
 	}
 
+	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 
 		return state.getValue(TILLED) ? FARMLAND_AABB : FULL_BLOCK_AABB;
@@ -140,6 +162,12 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	@SideOnly (Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 
+	}
+
+	protected boolean hasCrop(World world, BlockPos pos) {
+
+		Block block = world.getBlockState(pos.up()).getBlock();
+		return block instanceof IPlantable && canSustainPlant(world.getBlockState(pos), world, pos, EnumFacing.UP, (IPlantable) block);
 	}
 
 	/* IModelRegister */
