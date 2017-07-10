@@ -15,16 +15,20 @@ import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.ServerHelper;
 import cofh.core.util.helpers.StringHelper;
 import cofh.thermalcultivation.ThermalCultivation;
+import cofh.thermalfoundation.init.TFProps;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -37,15 +41,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 import static cofh.core.util.helpers.RecipeHelper.addShapedRecipe;
 
@@ -165,6 +173,19 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	}
 
 	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem) {
+
+		if (!isActive(stack)) {
+			return;
+		}
+		long activeTime = stack.getTagCompound().getLong("Active");
+
+		if (entity.world.getTotalWorldTime() - activeTime > 10) {
+			stack.getTagCompound().removeTag("Active");
+		}
+	}
+
+	@Override
 	public boolean isDamaged(ItemStack stack) {
 
 		return true;
@@ -185,7 +206,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 
-		return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged) && (slotChanged || !ItemHelper.areItemStacksEqualIgnoreTags(oldStack, newStack, "Water"));
+		return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged) && (slotChanged || ItemHelper.getItemDamage(oldStack) != ItemHelper.getItemDamage(newStack) || getWaterStored(oldStack) > 0 != getWaterStored(newStack) > 0 || getWaterStored(newStack) > 0 && isActive(oldStack) != isActive(newStack));
 	}
 
 	@Override
@@ -243,13 +264,19 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		if (player.isSneaking() && isWater(world.getBlockState(tracePos))) {
 			return EnumActionResult.FAIL;
 		}
+		if (hand == EnumHand.OFF_HAND && player.getHeldItemMainhand().getItem() == this) {
+			return EnumActionResult.FAIL;
+		}
 		ItemStack stack = player.getHeldItem(hand);
+
 		if (!player.canPlayerEdit(pos.offset(facing), facing, stack) || getWaterStored(stack) < WATER_PER_USE[0]) {
 			return EnumActionResult.FAIL;
 		}
 		if (player instanceof FakePlayer && !allowFakePlayers) {
 			return EnumActionResult.FAIL;
 		}
+		setActive(stack, player);
+
 		int radius = getRadius(stack);
 		int x = pos.getX();
 		double y = pos.getY() + 1.3D;
@@ -272,7 +299,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 			}
 		}
 		if (ServerHelper.isServerWorld(world)) {
-			if (world.rand.nextInt(100) < getChance(ItemHelper.getItemDamage(stack))) {
+			if (world.rand.nextInt(100) < getChance(ItemHelper.getItemDamage(stack) - 5 * getMode(stack))) {
 				for (BlockPos scan : area) {
 					Block plant = world.getBlockState(scan).getBlock();
 					if (plant instanceof IGrowable || plant instanceof IPlantable || plant == Blocks.MYCELIUM || plant == Blocks.CHORUS_FLOWER) {
@@ -285,6 +312,17 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 			}
 		}
 		return EnumActionResult.FAIL;
+	}
+
+	/* HELPERS */
+	public boolean isActive(ItemStack stack) {
+
+		return stack.getTagCompound() != null && stack.getTagCompound().hasKey("Active");
+	}
+
+	public void setActive(ItemStack stack, EntityPlayer player) {
+
+		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime());
 	}
 
 	/* IMultiModeItem */
@@ -343,10 +381,26 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	@Override
 	public void onModeChange(EntityPlayer player, ItemStack stack) {
 
-		player.world.playSound(null, player.getPosition(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.0F - 0.1F * getMode(stack));
+		player.world.playSound(null, player.getPosition(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
 
 		int radius = getRadius(stack) * 2 + 1;
 		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
+	}
+
+	/* IModelRegister */
+	@Override
+	@SideOnly (Side.CLIENT)
+	public void registerModels() {
+
+		ModelLoader.setCustomMeshDefinition(this, stack -> new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", typeMap.get(ItemHelper.getItemDamage(stack)).name, this.getWaterStored(stack) > 0 ? isActive(stack) ? "tipped" : "level" : "empty")));
+
+		String[] waterStates = { "level", "tipped", "empty" };
+
+		for (Map.Entry<Integer, ItemEntry> entry : itemMap.entrySet()) {
+			for (int i = 0; i < 3; i++) {
+				ModelBakery.registerItemVariants(this, new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", entry.getValue().name, waterStates[i])));
+			}
+		}
 	}
 
 	/* IFluidContainerItem */
@@ -526,7 +580,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 
 	public static final int[] CAPACITY = { 1, 3, 6, 10, 15 };
 	public static final int[] CHANCE = { 20, 25, 30, 35, 40 };
-	public static final int[] WATER_PER_USE = { 50, 100, 150, 200, 250 };
+	public static final int[] WATER_PER_USE = { 50, 150, 300, 500, 750 };
 
 	public static boolean enable = true;
 	public static boolean allowFakePlayers = false;
