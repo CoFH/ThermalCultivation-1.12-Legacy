@@ -1,9 +1,11 @@
 package cofh.thermalcultivation.block;
 
+import cofh.api.util.ThermalExpansionHelper;
 import cofh.core.block.BlockCore;
 import cofh.core.render.IModelRegister;
 import cofh.core.util.core.IInitializer;
 import cofh.thermalcultivation.ThermalCultivation;
+import cofh.thermalfoundation.init.TFFluids;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -13,6 +15,8 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,6 +32,8 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -35,6 +41,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
+
+import static cofh.core.util.helpers.RecipeHelper.addShapelessOreRecipe;
+import static cofh.core.util.helpers.RecipeHelper.addShapelessRecipe;
 
 public class BlockSoil extends BlockCore implements IInitializer, IModelRegister {
 
@@ -89,12 +98,20 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 
 	/* BLOCK METHODS */
 	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+
+		if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
+			turnToDirt(world, pos);
+		}
+	}
+
+	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 
 		if (!hasCrop(world, pos)) {
 			return;
 		}
-		switch(state.getValue(VARIANT)) {
+		switch (state.getValue(VARIANT)) {
 			case BASIC:
 				break;
 			case RICH:
@@ -170,6 +187,17 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		return block instanceof IPlantable && canSustainPlant(world.getBlockState(pos), world, pos, EnumFacing.UP, (IPlantable) block);
 	}
 
+	protected void turnToDirt(World world, BlockPos pos) {
+
+		IBlockState state = world.getBlockState(pos).withProperty(TILLED, false);
+		world.setBlockState(pos, state);
+		//		AxisAlignedBB boundingBox = state.getCollisionBoundingBox(world, pos).offset(pos);
+		//
+		//		for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(null, boundingBox)) {
+		//			entity.setPosition(entity.posX, boundingBox.maxY, entity.posZ);
+		//		}
+	}
+
 	/* IModelRegister */
 	@Override
 	@SideOnly (Side.CLIENT)
@@ -208,6 +236,10 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		itemBlock.setRegistryName(this.getRegistryName());
 		ForgeRegistries.ITEMS.register(itemBlock);
 
+		soilBasic = new ItemStack(this, 1, Type.BASIC.getMetadata());
+		soilRich = new ItemStack(this, 1, Type.RICH.getMetadata());
+		soilFlux = new ItemStack(this, 1, Type.FLUX.getMetadata());
+
 		MinecraftForge.EVENT_BUS.register(this);
 
 		ThermalCultivation.proxy.addIModelRegister(this);
@@ -218,6 +250,13 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	@Override
 	public boolean register() {
 
+		if (!Loader.isModLoaded("thermalexpansion")) {
+			addShapelessRecipe(soilRich, soilBasic, new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()));
+			addShapelessOreRecipe(soilFlux, soilRich, "dustRedstone");
+		} else {
+			ThermalExpansionHelper.addTransposerFill(2000, soilBasic, soilRich, new FluidStack(TFFluids.fluidSap, 500), false);
+			ThermalExpansionHelper.addChargerRecipe(8000, soilRich, soilFlux);
+		}
 		return true;
 	}
 
@@ -295,5 +334,6 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	public static ItemStack soilBasic;
 	public static ItemStack soilRich;
 	public static ItemStack soilFlux;
+	public static ItemStack soilMana;
 
 }

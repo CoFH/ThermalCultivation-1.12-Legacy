@@ -15,7 +15,6 @@ import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.ServerHelper;
 import cofh.core.util.helpers.StringHelper;
 import cofh.thermalcultivation.ThermalCultivation;
-import cofh.thermalfoundation.init.TFProps;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
@@ -180,7 +179,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		}
 		long activeTime = stack.getTagCompound().getLong("Active");
 
-		if (entity.world.getTotalWorldTime() - activeTime > 10) {
+		if (entity.world.getTotalWorldTime() > activeTime) {
 			stack.getTagCompound().removeTag("Active");
 		}
 	}
@@ -260,34 +259,36 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 
 		RayTraceResult traceResult = RayTracer.retrace(player, true);
 		BlockPos tracePos = traceResult.getBlockPos();
+		IBlockState traceState = world.getBlockState(tracePos);
 
-		if (player.isSneaking() && isWater(world.getBlockState(tracePos))) {
+		if (player instanceof FakePlayer && !allowFakePlayers) {
+			return EnumActionResult.FAIL;
+		}
+		if (player.isSneaking() && isWater(traceState)) {
 			return EnumActionResult.FAIL;
 		}
 		if (hand == EnumHand.OFF_HAND && player.getHeldItemMainhand().getItem() == this) {
 			return EnumActionResult.FAIL;
 		}
 		ItemStack stack = player.getHeldItem(hand);
+		BlockPos offsetPos = traceState.isSideSolid(world, tracePos, traceResult.sideHit) || traceState.getMaterial().isLiquid() ? tracePos.offset(traceResult.sideHit) : tracePos;
 
-		if (!player.canPlayerEdit(pos.offset(facing), facing, stack) || getWaterStored(stack) < WATER_PER_USE[0]) {
-			return EnumActionResult.FAIL;
-		}
-		if (player instanceof FakePlayer && !allowFakePlayers) {
+		if (getWaterStored(stack) < WATER_PER_USE[0]) {
 			return EnumActionResult.FAIL;
 		}
 		setActive(stack, player);
 
 		int radius = getRadius(stack);
-		int x = pos.getX();
-		double y = pos.getY() + 1.3D;
-		int z = pos.getZ();
+		int x = offsetPos.getX();
+		double y = offsetPos.getY() + 0.4D;
+		int z = offsetPos.getZ();
 
 		for (int i = x - radius; i <= x + radius; i++) {
 			for (int k = z - radius; k <= z + radius; k++) {
 				world.spawnParticle(EnumParticleTypes.WATER_DROP, i + world.rand.nextFloat(), y, k + world.rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 			}
 		}
-		Iterable<BlockPos.MutableBlockPos> area = BlockPos.getAllInBoxMutable(pos.add(-radius, -1, -radius), pos.add(radius, 1, radius));
+		Iterable<BlockPos.MutableBlockPos> area = BlockPos.getAllInBoxMutable(offsetPos.add(-radius, -1, -radius), offsetPos.add(radius, 1, radius));
 		for (BlockPos scan : area) {
 			IBlockState state = world.getBlockState(scan);
 
@@ -299,7 +300,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 			}
 		}
 		if (ServerHelper.isServerWorld(world)) {
-			if (world.rand.nextInt(100) < getChance(ItemHelper.getItemDamage(stack) - 5 * getMode(stack))) {
+			if (world.rand.nextInt(100) < getChance(ItemHelper.getItemDamage(stack)) - 5 * getMode(stack)) {
 				for (BlockPos scan : area) {
 					Block plant = world.getBlockState(scan).getBlock();
 					if (plant instanceof IGrowable || plant instanceof IPlantable || plant == Blocks.MYCELIUM || plant == Blocks.CHORUS_FLOWER) {
@@ -322,7 +323,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 
 	public void setActive(ItemStack stack, EntityPlayer player) {
 
-		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime());
+		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime() + 10);
 	}
 
 	/* IMultiModeItem */
@@ -490,7 +491,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		wateringCanSignalum = addEntryItem(3, "standard3", CAPACITY[3], CHANCE[3], 4, EnumRarity.UNCOMMON);
 		wateringCanResonant = addEntryItem(4, "standard4", CAPACITY[4], CHANCE[4], 5, EnumRarity.RARE);
 
-		wateringCanCreative = addEntryItem(CREATIVE, "creative", CAPACITY[4], 100, 5, EnumRarity.EPIC, false);
+		wateringCanCreative = addEntryItem(CREATIVE, "creative", CAPACITY[4], 200, 5, EnumRarity.EPIC, false);
 
 		ThermalCultivation.proxy.addIModelRegister(this);
 
@@ -579,7 +580,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	public static final int CREATIVE = 32000;
 
 	public static final int[] CAPACITY = { 1, 3, 6, 10, 15 };
-	public static final int[] CHANCE = { 20, 25, 30, 35, 40 };
+	public static final int[] CHANCE = { 40, 50, 60, 70, 80 };
 	public static final int[] WATER_PER_USE = { 50, 150, 300, 500, 750 };
 
 	public static boolean enable = true;

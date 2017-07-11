@@ -3,6 +3,8 @@ package cofh.thermalcultivation.init;
 import cofh.core.gui.CreativeTabCore;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalfoundation.block.BlockOre;
+import cofh.thermalfoundation.item.ItemFertilizer;
+import cofh.thermalfoundation.item.ItemMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,7 +37,7 @@ public class TCProps {
 			@SideOnly (Side.CLIENT)
 			public ItemStack getIconItemStack() {
 
-				return BlockOre.oreCopper;
+				return ItemFertilizer.fertilizerRich;
 			}
 
 		};

@@ -1,0 +1,26 @@
+{
+	"type": "thermalfoundation:fluid_shapeless",
+	"result": {
+		"item": "thermalcultivation:soil",
+		"data": 0,
+		"count": 2
+	},
+	"ingredients": [
+		{
+			"item": "minecraft:dirt",
+			"data": 0
+		},
+		{
+			"item": "minecraft:dirt",
+			"data": 1
+		},
+		{
+			"item": "thermalfoundation:fertilizer",
+			"data": 0
+		},
+		{
+			"type": "thermalfoundation:fluid",
+			"fluid": "water"
+		}
+	]
+}
