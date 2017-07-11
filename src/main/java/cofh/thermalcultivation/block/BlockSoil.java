@@ -72,9 +72,9 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
 
-		for (int i = 0; i < Type.METADATA_LOOKUP.length; i++) {
-			items.add(new ItemStack(this, 1, i));
-		}
+		//		for (int i = 0; i < Type.METADATA_LOOKUP.length; i++) {
+		//			items.add(new ItemStack(this, 1, i));
+		//		}
 	}
 
 	/* TYPE METHODS */

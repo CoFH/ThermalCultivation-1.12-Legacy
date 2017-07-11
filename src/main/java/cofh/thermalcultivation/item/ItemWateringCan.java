@@ -2,6 +2,7 @@ package cofh.thermalcultivation.item;
 
 import cofh.api.fluid.IFluidContainerItem;
 import cofh.api.item.IMultiModeItem;
+import cofh.api.item.INBTCopyIngredient;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.init.CoreProps;
 import cofh.core.item.IEnchantableItem;
@@ -56,7 +57,7 @@ import java.util.Map;
 
 import static cofh.core.util.helpers.RecipeHelper.addShapedRecipe;
 
-public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidContainerItem, IMultiModeItem, IEnchantableItem {
+public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidContainerItem, IMultiModeItem, IEnchantableItem, INBTCopyIngredient {
 
 	public ItemWateringCan() {
 
@@ -267,9 +268,9 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		if (player.isSneaking() && isWater(traceState)) {
 			return EnumActionResult.FAIL;
 		}
-		if (hand == EnumHand.OFF_HAND && player.getHeldItemMainhand().getItem() == this) {
-			return EnumActionResult.FAIL;
-		}
+		//		if (hand == EnumHand.OFF_HAND && player.getHeldItemMainhand().getItem() == this) {
+		//			return EnumActionResult.FAIL;
+		//		}
 		ItemStack stack = player.getHeldItem(hand);
 		BlockPos offsetPos = traceState.isSideSolid(world, tracePos, traceResult.sideHit) || traceState.getMaterial().isLiquid() ? tracePos.offset(traceResult.sideHit) : tracePos;
 
