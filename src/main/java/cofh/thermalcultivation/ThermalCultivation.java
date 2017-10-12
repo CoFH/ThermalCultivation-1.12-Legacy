@@ -9,7 +9,6 @@ import cofh.thermalcultivation.init.TCProps;
 import cofh.thermalcultivation.proxy.Proxy;
 import cofh.thermalfoundation.ThermalFoundation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -97,7 +96,6 @@ public class ThermalCultivation {
 	/* HELPERS */
 	private void registerHandlers() {
 
-		MinecraftForge.EVENT_BUS.register(proxy);
 	}
 
 }
