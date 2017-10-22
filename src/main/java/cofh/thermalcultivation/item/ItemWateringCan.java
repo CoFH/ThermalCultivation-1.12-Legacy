@@ -186,12 +186,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	}
 
 	@Override
-	public boolean isDamaged(ItemStack stack) {
-
-		return true;
-	}
-
-	@Override
 	public boolean isFull3D() {
 
 		return true;
