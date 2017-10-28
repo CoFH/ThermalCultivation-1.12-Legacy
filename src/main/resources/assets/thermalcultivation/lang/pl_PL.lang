@@ -1,0 +1,18 @@
+#pl_PL
+
+info.thermalcultivation.watering_can.0=Nawadnia pola uprawne i przyspiesza wzrost roślin.
+info.thermalcultivation.watering_can.1=§eNaciśnij (%s), aby dostosować obszar.§r
+info.thermalcultivation.watering_can.2=Woda może być zbierana podczas kucania.
+
+item.thermalcultivation.watering_can.creative.name=Konewka (Kreatywny)
+item.thermalcultivation.watering_can.standard0.name=Konewka (Podstawowa)
+item.thermalcultivation.watering_can.standard1.name=Konewka (Utwardzona)
+item.thermalcultivation.watering_can.standard2.name=Konewka (Wzmocniona)
+item.thermalcultivation.watering_can.standard3.name=Konewka (Signalum)
+item.thermalcultivation.watering_can.standard4.name=Konewka (Resonant)
+
+itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
+
+tile.thermalcultivation.soil.basic=Phyto-Soil
+tile.thermalcultivation.soil.flux=Naładowany Phyto-Soil
+tile.thermalcultivation.soil.rich=Zasobny Phyto-Soil
