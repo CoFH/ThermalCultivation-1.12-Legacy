@@ -241,7 +241,9 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 			return new ActionResult<>(EnumActionResult.FAIL, stack);
 		}
 		if (isWater(world.getBlockState(tracePos)) && getSpace(stack) > 0) {
-			world.setBlockState(tracePos, Blocks.AIR.getDefaultState(), 11);
+			if (removeSourceBlocks) {
+				world.setBlockState(tracePos, Blocks.AIR.getDefaultState(), 11);
+			}
 			fill(stack, new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME), true);
 			player.playSound(SoundEvents.ITEM_BUCKET_FILL, 1.0F, 1.0F);
 			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
@@ -521,6 +523,9 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		comment = "If TRUE, Fake Players (such as Autonomous Activators) will be able to use the Watering Can.";
 		allowFakePlayers = ThermalCultivation.CONFIG.getConfiguration().getBoolean("AllowFakePlayers", category, allowFakePlayers, comment);
 
+		comment = "If TRUE, Water Source blocks will be removed when collecting water from the world.";
+		removeSourceBlocks = ThermalCultivation.CONFIG.getConfiguration().getBoolean("RemoveWaterBlocks", category, removeSourceBlocks, comment);
+
 		int capacity = CAPACITY_BASE;
 		comment = "Adjust this value to change the amount of Water (in mB) stored by a Basic Watering Can. This base value will scale with item level.";
 		capacity = ThermalCultivation.CONFIG.getConfiguration().getInt("BaseCapacity", category, capacity, capacity / 5, capacity * 5, comment);
@@ -577,6 +582,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 
 	public static boolean enable = true;
 	public static boolean allowFakePlayers = false;
+	public static boolean removeSourceBlocks = true;
 
 	/* REFERENCES */
 	public static ItemStack wateringCanBasic;
