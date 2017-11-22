@@ -2,8 +2,8 @@ package cofh.thermalcultivation.init;
 
 import cofh.core.gui.CreativeTabCore;
 import cofh.thermalcultivation.ThermalCultivation;
-import cofh.thermalfoundation.item.ItemFertilizer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -35,7 +35,11 @@ public class TCProps {
 			@SideOnly (Side.CLIENT)
 			public ItemStack getIconItemStack() {
 
-				return ItemFertilizer.fertilizerRich;
+				ItemStack iconStack = new ItemStack(TCItems.itemWateringCan, 1, 1);
+				iconStack.setTagCompound(new NBTTagCompound());
+				iconStack.getTagCompound().setBoolean("CreativeTab", true);
+
+				return iconStack;
 			}
 
 		};
