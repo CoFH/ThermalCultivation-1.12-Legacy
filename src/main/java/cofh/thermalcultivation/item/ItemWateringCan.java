@@ -237,7 +237,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		BlockPos tracePos = traceResult.getBlockPos();
 		ItemStack stack = player.getHeldItem(hand);
 
-		if (!player.isSneaking() || !world.isBlockModifiable(player, tracePos)) {
+		if (!player.isSneaking() || !world.isBlockModifiable(player, tracePos) || player instanceof FakePlayer && !allowFakePlayers) {
 			return new ActionResult<>(EnumActionResult.FAIL, stack);
 		}
 		if (isWater(world.getBlockState(tracePos)) && getSpace(stack) > 0) {
