@@ -57,7 +57,7 @@ import java.util.Map;
 
 import static cofh.core.util.helpers.RecipeHelper.addShapedRecipe;
 
-public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidContainerItem, IMultiModeItem, IEnchantableItem, INBTCopyIngredient {
+public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiModeItem, IFluidContainerItem, IEnchantableItem, INBTCopyIngredient {
 
 	public ItemWateringCan() {
 
@@ -84,51 +84,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		stack.getTagCompound().setInteger("Mode", getNumModes(stack) - 1);
 
 		return stack;
-	}
-
-	public int getBaseCapacity(int metadata) {
-
-		if (!typeMap.containsKey(metadata)) {
-			return 0;
-		}
-		return typeMap.get(metadata).capacity;
-	}
-
-	public int getChance(int metadata) {
-
-		if (!typeMap.containsKey(metadata)) {
-			return 0;
-		}
-		return typeMap.get(metadata).chance;
-	}
-
-	public int getMaxRadius(int metadata) {
-
-		if (!typeMap.containsKey(metadata)) {
-			return 0;
-		}
-		return typeMap.get(metadata).radius;
-	}
-
-	public int getRadius(ItemStack stack) {
-
-		return 1 + getMode(stack);
-	}
-
-	public int getSpace(ItemStack stack) {
-
-		if (stack.getTagCompound() == null) {
-			setDefaultTag(stack, 0);
-		}
-		return getCapacity(stack) - getWaterStored(stack);
-	}
-
-	public int getWaterStored(ItemStack stack) {
-
-		if (stack.getTagCompound() == null) {
-			setDefaultTag(stack, 0);
-		}
-		return stack.getTagCompound().getInteger("Water");
 	}
 
 	@Override
@@ -210,7 +165,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 	}
 
 	@Override
-	public int getItemEnchantability() {
+	public int getItemEnchantability(ItemStack stack) {
 
 		return 10;
 	}
@@ -320,6 +275,67 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime() + 10);
 	}
 
+	public int getBaseCapacity(int metadata) {
+
+		if (!typeMap.containsKey(metadata)) {
+			return 0;
+		}
+		return typeMap.get(metadata).capacity;
+	}
+
+	public int getChance(int metadata) {
+
+		if (!typeMap.containsKey(metadata)) {
+			return 0;
+		}
+		return typeMap.get(metadata).chance;
+	}
+
+	public int getMaxRadius(int metadata) {
+
+		if (!typeMap.containsKey(metadata)) {
+			return 0;
+		}
+		return typeMap.get(metadata).radius;
+	}
+
+	public int getRadius(ItemStack stack) {
+
+		return 1 + getMode(stack);
+	}
+
+	public int getSpace(ItemStack stack) {
+
+		if (stack.getTagCompound() == null) {
+			setDefaultTag(stack, 0);
+		}
+		return getCapacity(stack) - getWaterStored(stack);
+	}
+
+	public int getWaterStored(ItemStack stack) {
+
+		if (stack.getTagCompound() == null) {
+			setDefaultTag(stack, 0);
+		}
+		return stack.getTagCompound().getInteger("Water");
+	}
+
+	/* IModelRegister */
+	@Override
+	@SideOnly (Side.CLIENT)
+	public void registerModels() {
+
+		ModelLoader.setCustomMeshDefinition(this, stack -> new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", typeMap.get(ItemHelper.getItemDamage(stack)).name, this.getWaterStored(stack) > 0 ? isActive(stack) ? "tipped" : "level" : "empty")));
+
+		String[] waterStates = { "level", "tipped", "empty" };
+
+		for (Map.Entry<Integer, ItemEntry> entry : itemMap.entrySet()) {
+			for (int i = 0; i < 3; i++) {
+				ModelBakery.registerItemVariants(this, new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", entry.getValue().name, waterStates[i])));
+			}
+		}
+	}
+
 	/* IMultiModeItem */
 	@Override
 	public int getMode(ItemStack stack) {
@@ -380,22 +396,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IFluidCo
 
 		int radius = getRadius(stack) * 2 + 1;
 		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
-	}
-
-	/* IModelRegister */
-	@Override
-	@SideOnly (Side.CLIENT)
-	public void registerModels() {
-
-		ModelLoader.setCustomMeshDefinition(this, stack -> new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", typeMap.get(ItemHelper.getItemDamage(stack)).name, this.getWaterStored(stack) > 0 ? isActive(stack) ? "tipped" : "level" : "empty")));
-
-		String[] waterStates = { "level", "tipped", "empty" };
-
-		for (Map.Entry<Integer, ItemEntry> entry : itemMap.entrySet()) {
-			for (int i = 0; i < 3; i++) {
-				ModelBakery.registerItemVariants(this, new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", entry.getValue().name, waterStates[i])));
-			}
-		}
 	}
 
 	/* IFluidContainerItem */
