@@ -95,7 +95,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (!StringHelper.isShiftKeyDown()) {
 			return;
 		}
-		int metadata = ItemHelper.getItemDamage(stack);
 		int radius = getRadius(stack) * 2 + 1;
 
 		tooltip.add(StringHelper.getInfoText("info.thermalcultivation.watering_can.0"));
@@ -104,7 +103,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (getNumModes(stack) > 1) {
 			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.watering_can.1", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
 		}
-		if (metadata == CREATIVE) {
+		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
 			tooltip.add(StringHelper.localize(FluidRegistry.WATER.getUnlocalizedName()) + ": " + StringHelper.localize("info.cofh.infinite"));
 		} else {
 			tooltip.add(StringHelper.localize(StringHelper.localize(FluidRegistry.WATER.getUnlocalizedName()) + ": " + StringHelper.formatNumber(getWaterStored(stack)) + " / " + StringHelper.formatNumber(getCapacity(stack)) + " mB"));
@@ -337,52 +336,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	}
 
 	/* IMultiModeItem */
-	@Override
-	public int getMode(ItemStack stack) {
-
-		return !stack.hasTagCompound() ? 0 : stack.getTagCompound().getInteger("Mode");
-	}
-
-	@Override
-	public boolean setMode(ItemStack stack, int mode) {
-
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
-		}
-		stack.getTagCompound().setInteger("Mode", mode);
-		return false;
-	}
-
-	@Override
-	public boolean incrMode(ItemStack stack) {
-
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
-		}
-		int curMode = getMode(stack);
-		curMode++;
-		if (curMode >= getNumModes(stack)) {
-			curMode = 0;
-		}
-		stack.getTagCompound().setInteger("Mode", curMode);
-		return true;
-	}
-
-	@Override
-	public boolean decrMode(ItemStack stack) {
-
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
-		}
-		int curMode = getMode(stack);
-		curMode--;
-		if (curMode <= 0) {
-			curMode = getNumModes(stack) - 1;
-		}
-		stack.getTagCompound().setInteger("Mode", curMode);
-		return true;
-	}
-
 	@Override
 	public int getNumModes(ItemStack stack) {
 
