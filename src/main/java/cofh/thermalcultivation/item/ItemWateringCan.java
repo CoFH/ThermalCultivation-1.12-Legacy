@@ -127,7 +127,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem) {
+	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isSelected) {
 
 		if (!isActive(stack)) {
 			return;
@@ -148,7 +148,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean isEnchantable(ItemStack stack) {
 
-		return true;
+		return ItemHelper.getItemDamage(stack) != CREATIVE;
 	}
 
 	@Override
@@ -402,10 +402,13 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (maxDrain == 0) {
 			return null;
 		}
+		if (ItemHelper.getItemDamage(container) == CREATIVE) {
+			return new FluidStack(FluidRegistry.WATER, maxDrain);
+		}
 		int stored = container.getTagCompound().getInteger("Water");
 		int drain = Math.min(maxDrain, stored);
 
-		if (doDrain && ItemHelper.getItemDamage(container) != CREATIVE) {
+		if (doDrain) {
 			stored -= drain;
 			container.getTagCompound().setInteger("Water", stored);
 		}
@@ -416,7 +419,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
 
-		return enchantment == CoreEnchantments.holding;
+		return ItemHelper.getItemDamage(stack) != CREATIVE && enchantment == CoreEnchantments.holding;
 	}
 
 	/* CAPABILITIES */
@@ -438,7 +441,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		wateringCanSignalum = addEntryItem(3, "standard3", CAPACITY[3], CHANCE[3], 4, EnumRarity.UNCOMMON);
 		wateringCanResonant = addEntryItem(4, "standard4", CAPACITY[4], CHANCE[4], 5, EnumRarity.RARE);
 
-		wateringCanCreative = addEntryItem(CREATIVE, "creative", CAPACITY[4], 200, 5, EnumRarity.EPIC, false);
+		wateringCanCreative = addEntryItem(CREATIVE, "creative", CAPACITY[4], CHANCE_CREATIVE, 5, EnumRarity.EPIC);
 
 		ThermalCultivation.proxy.addIModelRegister(this);
 
@@ -495,32 +498,24 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		public final int capacity;
 		public final int chance;
 		public final int radius;
-		public final boolean enchantable;
 
-		TypeEntry(String name, int capacity, int chance, int radius, boolean enchantable) {
+		TypeEntry(String name, int capacity, int chance, int radius) {
 
 			this.name = name;
 			this.capacity = capacity;
 			this.chance = chance;
 			this.radius = radius;
-			this.enchantable = enchantable;
 		}
 	}
 
-	private void addEntry(int metadata, String name, int capacity, int chance, int radius, boolean enchantable) {
+	private void addEntry(int metadata, String name, int capacity, int chance, int radius) {
 
-		typeMap.put(metadata, new TypeEntry(name, capacity, chance, radius, enchantable));
-	}
-
-	private ItemStack addEntryItem(int metadata, String name, int capacity, int chance, int radius, EnumRarity rarity, boolean enchantable) {
-
-		addEntry(metadata, name, capacity, chance, radius, enchantable);
-		return addItem(metadata, name, rarity);
+		typeMap.put(metadata, new TypeEntry(name, capacity, chance, radius));
 	}
 
 	private ItemStack addEntryItem(int metadata, String name, int capacity, int chance, int radius, EnumRarity rarity) {
 
-		addEntry(metadata, name, capacity, chance, radius, true);
+		addEntry(metadata, name, capacity, chance, radius);
 		return addItem(metadata, name, rarity);
 	}
 
@@ -532,6 +527,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	public static final int[] CAPACITY = { 1, 3, 6, 10, 15 };
 	public static final int[] CHANCE = { 40, 50, 60, 70, 80 };
 	public static final int[] WATER_PER_USE = { 50, 150, 300, 500, 750 };
+	public static final int CHANCE_CREATIVE = 200;
 
 	public static boolean enable = true;
 	public static boolean allowFakePlayers = false;
