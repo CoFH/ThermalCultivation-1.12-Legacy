@@ -243,7 +243,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 			if (state.getBlock() instanceof BlockFarmland) {
 				int moisture = state.getValue(BlockFarmland.MOISTURE);
 				if (moisture < 7) {
-					world.setBlockState(scan, state.withProperty(BlockFarmland.MOISTURE, 7), 2);
+					world.setBlockState(scan, state.withProperty(BlockFarmland.MOISTURE, 7), 3);
 				}
 			}
 		}
