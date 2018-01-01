@@ -188,8 +188,12 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
 		RayTraceResult traceResult = RayTracer.retrace(player, true);
-		BlockPos tracePos = traceResult.getBlockPos();
 		ItemStack stack = player.getHeldItem(hand);
+
+		if (traceResult == null) {
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+		}
+		BlockPos tracePos = traceResult.getBlockPos();
 
 		if (!player.isSneaking() || !world.isBlockModifiable(player, tracePos) || player instanceof FakePlayer && !allowFakePlayers) {
 			return new ActionResult<>(EnumActionResult.FAIL, stack);
@@ -209,16 +213,13 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		RayTraceResult traceResult = RayTracer.retrace(player, true);
-		BlockPos tracePos = traceResult.getBlockPos();
-		IBlockState traceState = world.getBlockState(tracePos);
 
-		if (player instanceof FakePlayer && !allowFakePlayers) {
-			return EnumActionResult.FAIL;
-		}
-		if (player.isSneaking()) {
+		if (traceResult == null || player.isSneaking() || player instanceof FakePlayer && !allowFakePlayers) {
 			return EnumActionResult.FAIL;
 		}
 		ItemStack stack = player.getHeldItem(hand);
+		BlockPos tracePos = traceResult.getBlockPos();
+		IBlockState traceState = world.getBlockState(tracePos);
 		BlockPos offsetPos = traceState.isSideSolid(world, tracePos, traceResult.sideHit) || traceState.getMaterial().isLiquid() ? tracePos.offset(traceResult.sideHit) : tracePos;
 
 		if (getWaterStored(stack) < WATER_PER_USE[0]) {
