@@ -1,0 +1,18 @@
+#en_US
+
+info.thermalcultivation.watering_can.0=農地を灌漑し、農作物の成長を促します
+info.thermalcultivation.watering_can.1=§e%sを押下すると範囲内に水を撒きます§r
+info.thermalcultivation.watering_can.2=スニーク中に水を集める場合があります
+
+item.thermalcultivation.watering_can.creative.name=ジョウロ (クリエイティブ)
+item.thermalcultivation.watering_can.standard0.name=ジョウロ (ベーシック)
+item.thermalcultivation.watering_can.standard1.name=ジョウロ (ハーデンド)
+item.thermalcultivation.watering_can.standard2.name=ジョウロ (レインフォースト)
+item.thermalcultivation.watering_can.standard3.name=ジョウロ (シグナルム)
+item.thermalcultivation.watering_can.standard4.name=ジョウロ (レゾナント)
+
+itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
+
+tile.thermalcultivation.soil.basic.name=Phyto-Soil (Not Implemented)
+tile.thermalcultivation.soil.flux.name=Fluxed Phyto-Soil (Not Implemented)
+tile.thermalcultivation.soil.rich.name=Rich Phyto-Soil (Not Implemented)
