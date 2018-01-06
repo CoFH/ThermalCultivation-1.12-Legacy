@@ -190,7 +190,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		RayTraceResult traceResult = RayTracer.retrace(player, true);
 		ItemStack stack = player.getHeldItem(hand);
 
-		if (traceResult == null) {
+		if (traceResult == null || traceResult.sideHit == null) {
 			return new ActionResult<>(EnumActionResult.PASS, stack);
 		}
 		BlockPos tracePos = traceResult.getBlockPos();
@@ -214,7 +214,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 
 		RayTraceResult traceResult = RayTracer.retrace(player, true);
 
-		if (traceResult == null || player.isSneaking() || player instanceof FakePlayer && !allowFakePlayers) {
+		if (traceResult == null || traceResult.sideHit == null || player.isSneaking() || player instanceof FakePlayer && !allowFakePlayers) {
 			return EnumActionResult.FAIL;
 		}
 		ItemStack stack = player.getHeldItem(hand);
