@@ -1,0 +1,45 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "textures": {
+      "layer0": "thermalcultivation:items/seed_bag/seed_bag_0",
+      "layer1": "thermalcultivation:items/seed_bag/seed_bag_overlay"
+    },
+    "transform": "forge:default-tool"
+  },
+  "variants": {
+    "type": {
+      "standard0": {
+        "textures": {
+          "layer0": "thermalcultivation:items/seed_bag/seed_bag_0"
+        }
+      },
+      "standard1": {
+        "textures": {
+          "layer0": "thermalcultivation:items/seed_bag/seed_bag_1"
+        }
+      },
+      "standard2": {
+        "textures": {
+          "layer0": "thermalcultivation:items/seed_bag/seed_bag_2"
+        }
+      },
+      "standard3": {
+        "textures": {
+          "layer0": "thermalcultivation:items/seed_bag/seed_bag_3"
+        }
+      },
+      "standard4": {
+        "textures": {
+          "layer0": "thermalcultivation:items/seed_bag/seed_bag_4"
+        }
+      },
+      "creative": {
+        "textures": {
+          "layer0": "thermalcultivation:items/seed_bag/seed_bag_c"
+        }
+      }
+    }
+  }
+}
