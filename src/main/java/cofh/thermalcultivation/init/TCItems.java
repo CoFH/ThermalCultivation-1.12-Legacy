@@ -1,6 +1,7 @@
 package cofh.thermalcultivation.init;
 
 import cofh.core.util.core.IInitializer;
+import cofh.thermalcultivation.item.ItemSeedBag;
 import cofh.thermalcultivation.item.ItemWateringCan;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,8 +21,10 @@ public class TCItems {
 	public static void preInit() {
 
 		itemWateringCan = new ItemWateringCan();
+		itemSeedBag = new ItemSeedBag();
 
 		initList.add(itemWateringCan);
+		initList.add(itemSeedBag);
 
 		for (IInitializer init : initList) {
 			init.initialize();
@@ -42,5 +45,6 @@ public class TCItems {
 
 	/* REFERENCES */
 	public static ItemWateringCan itemWateringCan;
+	public static ItemSeedBag itemSeedBag;
 
 }
