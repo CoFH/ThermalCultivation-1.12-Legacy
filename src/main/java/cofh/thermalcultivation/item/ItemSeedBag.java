@@ -144,7 +144,9 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
                             if (player instanceof EntityPlayerMP) {
                                 CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, target.up(), item);
                             }
-                            item.shrink(1);
+                            if(!isCreative(stack)) {
+                                item.shrink(1);
+                            }
                             break;
                         }
                     }
@@ -353,7 +355,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
     @Override
     public void onModeChange(EntityPlayer player, ItemStack stack) {
 
-        player.world.playSound(null, player.getPosition(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
+        player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_TRIPWIRE_CLICK_ON, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
 
         int radius = getRange(stack) * 2 + 1;
         ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));

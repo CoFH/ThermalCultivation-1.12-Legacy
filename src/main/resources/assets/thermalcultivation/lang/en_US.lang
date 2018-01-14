@@ -7,6 +7,9 @@ info.thermalcultivation.watering_can.2=Water may be collected while sneaking.
 info.thermalcultivation.seed_bag.0=Stores and plants seeds.
 info.thermalcultivation.seed_bag.1=§ePress (%s) to adjust the area.§r
 
+info.thermalcultivation.scythe.0=Harvests grown crops in an area.
+info.thermalcultivation.scythe.1=§ePress (%s) to adjust the area.§r
+
 tab.thermalcultivation.storage.satchel.0=Collects and plants seeds.
 tab.thermalcultivation.storage.satchel.1=Only stores one type of seed at a time.
 
@@ -26,6 +29,13 @@ item.thermalcultivation.seed_bag.standard1.name=Seed Bag (Hardened)
 item.thermalcultivation.seed_bag.standard2.name=Seed Bag (Reinforced)
 item.thermalcultivation.seed_bag.standard3.name=Seed Bag (Signalum)
 item.thermalcultivation.seed_bag.standard4.name=Seed Bag (Resonant)
+
+item.thermalcultivation.scythe.creative.name=Scythe (Creative)
+item.thermalcultivation.scythe.standard0.name=Scythe (Basic)
+item.thermalcultivation.scythe.standard1.name=Scythe (Hardened)
+item.thermalcultivation.scythe.standard2.name=Scythe (Reinforced)
+item.thermalcultivation.scythe.standard3.name=Scythe (Signalum)
+item.thermalcultivation.scythe.standard4.name=Scythe (Resonant)
 
 itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
 
