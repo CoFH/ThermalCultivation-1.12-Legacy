@@ -16,89 +16,90 @@ import net.minecraftforge.common.IPlantable;
 
 public class ContainerSeedBag extends ContainerInventoryItem implements ISlotValidator {
 
-    static final String NAME = "item.thermalcultivation.seed_bag.name";
+	static final String NAME = "item.thermalcultivation.seed_bag.name";
 
-    boolean isCreative;
+	boolean isCreative;
 
-    int storageIndex;
-    int rowSize;
+	int storageIndex;
+	int rowSize;
 
-    public ContainerSeedBag(ItemStack stack, InventoryPlayer inventory) {
-        super(stack, inventory);
+	public ContainerSeedBag(ItemStack stack, InventoryPlayer inventory) {
 
-        isCreative = ItemSeedBag.isCreative(stack);
+		super(stack, inventory);
 
-        storageIndex = ItemSeedBag.getStorageIndex(stack);
-        rowSize = MathHelper.clamp(storageIndex, 9, 14);
+		isCreative = ItemSeedBag.isCreative(stack);
 
-        int rows = MathHelper.clamp(storageIndex, 2, 9);
-        int slots = rowSize * rows;
-        int yOffset = 17;
+		storageIndex = ItemSeedBag.getStorageIndex(stack);
+		rowSize = MathHelper.clamp(storageIndex, 9, 14);
 
-        bindPlayerInventory(inventory);
+		int rows = MathHelper.clamp(storageIndex, 2, 9);
+		int slots = rowSize * rows;
+		int yOffset = 17;
 
-        switch (storageIndex) {
-            case 0:
-                addSlotToContainer(new SlotBagCreative(this, containerWrapper, 0, 80, 26));
-                rowSize = 1;
-                break;
-            case 1:
-                yOffset += 9;
-                for (int i = 0; i < 9; i++) {
-                    addSlotToContainer(new SlotValidated(this, containerWrapper, i, 8 + i % rowSize * 18, yOffset + i / rowSize * 18));
-                }
-                break;
-            default:
-                for (int i = 0; i < slots; i++) {
-                    addSlotToContainer(new SlotValidated(this, containerWrapper, i, 8 + i % rowSize * 18, yOffset + i / rowSize * 18));
-                }
-                break;
-        }
-    }
+		bindPlayerInventory(inventory);
 
-    @Override
-    protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
+		switch (storageIndex) {
+			case 0:
+				addSlotToContainer(new SlotBagCreative(this, containerWrapper, 0, 80, 26));
+				rowSize = 1;
+				break;
+			case 1:
+				yOffset += 9;
+				for (int i = 0; i < 9; i++) {
+					addSlotToContainer(new SlotValidated(this, containerWrapper, i, 8 + i % rowSize * 18, yOffset + i / rowSize * 18));
+				}
+				break;
+			default:
+				for (int i = 0; i < slots; i++) {
+					addSlotToContainer(new SlotValidated(this, containerWrapper, i, 8 + i % rowSize * 18, yOffset + i / rowSize * 18));
+				}
+				break;
+		}
+	}
 
-        int xOffset = getPlayerInventoryHorizontalOffset();
-        int yOffset = getPlayerInventoryVerticalOffset();
+	@Override
+	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++) {
-                addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, xOffset + j * 18, yOffset + i * 18));
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            if (i == inventoryPlayer.currentItem) {
-                addSlotToContainer(new SlotLocked(inventoryPlayer, i, xOffset + i * 18, yOffset + 58));
-            } else {
-                addSlotToContainer(new Slot(inventoryPlayer, i, xOffset + i * 18, yOffset + 58));
-            }
-        }
-    }
+		int xOffset = getPlayerInventoryHorizontalOffset();
+		int yOffset = getPlayerInventoryVerticalOffset();
 
-    @Override
-    public String getInventoryName() {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 9; j++) {
+				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, xOffset + j * 18, yOffset + i * 18));
+			}
+		}
+		for (int i = 0; i < 9; i++) {
+			if (i == inventoryPlayer.currentItem) {
+				addSlotToContainer(new SlotLocked(inventoryPlayer, i, xOffset + i * 18, yOffset + 58));
+			} else {
+				addSlotToContainer(new Slot(inventoryPlayer, i, xOffset + i * 18, yOffset + 58));
+			}
+		}
+	}
 
-        return containerWrapper.hasCustomName() ? containerWrapper.getName() : StringHelper.localize(NAME);
-    }
+	@Override
+	public String getInventoryName() {
 
-    @Override
-    protected int getPlayerInventoryVerticalOffset() {
+		return containerWrapper.hasCustomName() ? containerWrapper.getName() : StringHelper.localize(NAME);
+	}
 
-        return 30 + 18 * MathHelper.clamp(storageIndex, 2, 9);
-    }
+	@Override
+	protected int getPlayerInventoryVerticalOffset() {
 
-    @Override
-    protected int getPlayerInventoryHorizontalOffset() {
+		return 30 + 18 * MathHelper.clamp(storageIndex, 2, 9);
+	}
 
-        return 8 + 9 * (rowSize - 9);
-    }
+	@Override
+	protected int getPlayerInventoryHorizontalOffset() {
 
-    /* ISlotValidator */
-    @Override
-    public boolean isItemValid(ItemStack stack) {
+		return 8 + 9 * (rowSize - 9);
+	}
 
-        Item current = ItemSeedBag.getCurrentSeed(getContainerStack());
-        return containerWrapper.isItemValidForSlot(0, stack) && stack.getItem() instanceof IPlantable && (current == null || current.equals(stack.getItem()));
-    }
+	/* ISlotValidator */
+	@Override
+	public boolean isItemValid(ItemStack stack) {
+
+		Item current = ItemSeedBag.getCurrentSeed(getContainerStack());
+		return containerWrapper.isItemValidForSlot(0, stack) && stack.getItem() instanceof IPlantable && (current == null || current.equals(stack.getItem()));
+	}
 }

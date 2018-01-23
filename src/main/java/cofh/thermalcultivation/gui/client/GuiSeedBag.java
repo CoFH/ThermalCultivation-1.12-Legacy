@@ -11,41 +11,41 @@ import net.minecraft.entity.player.InventoryPlayer;
 
 public class GuiSeedBag extends GuiContainerCore {
 
-    boolean isCreative;
-    int storageIndex;
+	boolean isCreative;
+	int storageIndex;
 
-    public GuiSeedBag(InventoryPlayer inventory, ContainerSeedBag container) {
+	public GuiSeedBag(InventoryPlayer inventory, ContainerSeedBag container) {
 
-        super(container);
+		super(container);
 
-        isCreative = ItemSeedBag.isCreative(container.getContainerStack());
+		isCreative = ItemSeedBag.isCreative(container.getContainerStack());
 
-        storageIndex = ItemSeedBag.getStorageIndex(container.getContainerStack());
-        texture = CoreProps.TEXTURE_STORAGE[storageIndex];
-        name = container.getInventoryName();
+		storageIndex = ItemSeedBag.getStorageIndex(container.getContainerStack());
+		texture = CoreProps.TEXTURE_STORAGE[storageIndex];
+		name = container.getInventoryName();
 
-        allowUserInput = false;
+		allowUserInput = false;
 
-        xSize = 14 + 18 * MathHelper.clamp(storageIndex, 9, 14);
-        ySize = 112 + 18 * MathHelper.clamp(storageIndex, 2, 9);
+		xSize = 14 + 18 * MathHelper.clamp(storageIndex, 9, 14);
+		ySize = 112 + 18 * MathHelper.clamp(storageIndex, 2, 9);
 
-        if (isCreative) {
-            generateInfo("tab.thermalcultivation.storage.seed_bag_c");
-        } else {
-            generateInfo("tab.thermalcultivation.storage.seed_bag");
-        }
-        if (container.getContainerStack().isItemEnchantable() && !ItemSeedBag.hasHoldingEnchant(container.getContainerStack())) {
-            myInfo += "\n\n" + StringHelper.localize("tab.thermalcultivation.storage.enchant");
-        }
-    }
+		if (isCreative) {
+			generateInfo("tab.thermalcultivation.storage.seed_bag_c");
+		} else {
+			generateInfo("tab.thermalcultivation.storage.seed_bag");
+		}
+		if (container.getContainerStack().isItemEnchantable() && !ItemSeedBag.hasHoldingEnchant(container.getContainerStack())) {
+			myInfo += "\n\n" + StringHelper.localize("tab.thermalcultivation.storage.enchant");
+		}
+	}
 
-    @Override
-    public void initGui() {
+	@Override
+	public void initGui() {
 
-        super.initGui();
+		super.initGui();
 
-        if (!myInfo.isEmpty()) {
-            addTab(new TabInfo(this, myInfo));
-        }
-    }
+		if (!myInfo.isEmpty()) {
+			addTab(new TabInfo(this, myInfo));
+		}
+	}
 }
