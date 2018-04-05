@@ -1,14 +1,14 @@
 #en_US
 
-info.thermalcultivation.watering_can.0=Irrigates farmland and speeds up plant growth.
-info.thermalcultivation.watering_can.1=§ePress (%s) to adjust the area.§r
-info.thermalcultivation.watering_can.2=Water may be collected while sneaking.
+info.thermalcultivation.scythe.a.0=Harvests fully grown crops.
+info.thermalcultivation.scythe.b.0=§ePress (%s) to adjust the area.§r
 
-info.thermalcultivation.seed_bag.0=Stores and plants seeds.
-info.thermalcultivation.seed_bag.1=§ePress (%s) to adjust the area.§r
+info.thermalcultivation.seed_bag.a.0=Stores and plants seeds.
+info.thermalcultivation.seed_bag.b.0=§ePress (%s) to adjust the area.§r
 
-info.thermalcultivation.scythe.0=Harvests grown crops in an area.
-info.thermalcultivation.scythe.1=§ePress (%s) to adjust the area.§r
+info.thermalcultivation.watering_can.a.0=Irrigates farmland and speeds up plant growth.
+info.thermalcultivation.watering_can.b.0=§ePress (%s) to adjust the area.§r
+info.thermalcultivation.watering_can.c.0=Water may be collected while sneaking.
 
 tab.thermalcultivation.storage.satchel.0=Collects and plants seeds.
 tab.thermalcultivation.storage.satchel.1=Only stores one type of seed at a time.
@@ -30,12 +30,12 @@ item.thermalcultivation.seed_bag.standard2.name=Seed Bag (Reinforced)
 item.thermalcultivation.seed_bag.standard3.name=Seed Bag (Signalum)
 item.thermalcultivation.seed_bag.standard4.name=Seed Bag (Resonant)
 
-item.thermalcultivation.scythe.creative.name=Scythe (Creative)
-item.thermalcultivation.scythe.standard0.name=Scythe (Basic)
-item.thermalcultivation.scythe.standard1.name=Scythe (Hardened)
-item.thermalcultivation.scythe.standard2.name=Scythe (Reinforced)
-item.thermalcultivation.scythe.standard3.name=Scythe (Signalum)
-item.thermalcultivation.scythe.standard4.name=Scythe (Resonant)
+item.thermalcultivation.scythe.creative.name=Flux Scythe (Creative)
+item.thermalcultivation.scythe.standard0.name=Flux Scythe (Basic)
+item.thermalcultivation.scythe.standard1.name=Flux Scythe (Hardened)
+item.thermalcultivation.scythe.standard2.name=Flux Scythe (Reinforced)
+item.thermalcultivation.scythe.standard3.name=Flux Scythe (Signalum)
+item.thermalcultivation.scythe.standard4.name=Flux Scythe (Resonant)
 
 itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
 

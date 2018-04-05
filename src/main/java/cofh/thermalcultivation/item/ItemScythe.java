@@ -15,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -48,18 +49,12 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+	public ItemStack setDefaultTag(ItemStack stack, int energy) {
 
-		if (isInCreativeTab(tab)) {
-			for (int metadata : itemList) {
-				if (metadata != CREATIVE) {
-					items.add(setDefaultTag(new ItemStack(this, 1, metadata), 0));
-					items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
-				} else {
-					items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
-				}
-			}
-		}
+		EnergyHelper.setDefaultEnergyTag(stack, energy);
+		stack.getTagCompound().setInteger("Mode", getNumModes(stack) - 1);
+
+		return stack;
 	}
 
 	@Override
@@ -71,20 +66,33 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		if (!StringHelper.isShiftKeyDown()) {
 			return;
 		}
+		int radius = getRadius(stack) * 2 + 1;
 
-		int range = getRange(stack) * 2 + 1;
-
-		tooltip.add(StringHelper.getInfoText("info.thermalcultivation.scythe.0"));
-		tooltip.add(StringHelper.localize("info.cofh.area") + ": " + range + "x" + range);
+		tooltip.add(StringHelper.getInfoText("info.thermalcultivation.scythe.a.0"));
+		tooltip.add(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius);
 
 		if (getNumModes(stack) > 1) {
-			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.scythe.1", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.scythe.b.0", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
 		}
-
 		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
 			tooltip.add(StringHelper.localize("info.cofh.charge") + ": 1.21G RF");
 		} else {
 			tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.getScaledNumber(getEnergyStored(stack)) + " / " + StringHelper.getScaledNumber(getMaxEnergyStored(stack)) + " RF");
+		}
+	}
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+
+		if (isInCreativeTab(tab)) {
+			for (int metadata : itemList) {
+				if (metadata != CREATIVE) {
+					items.add(setDefaultTag(new ItemStack(this, 1, metadata), 0));
+					items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
+				} else {
+					items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
+				}
+			}
 		}
 	}
 
@@ -102,7 +110,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
-		int radius = getRange(stack);
+		int radius = getRadius(stack);
 
 		loop:
 		for (int i = x - radius; i <= x + radius; i++) {
@@ -119,90 +127,11 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		if (count > 0 && !player.capabilities.isCreativeMode) {
 			useEnergy(stack, count, false);
 			return true;
-		} else {
-			return false;
 		}
-	}
-
-	/* IMultiModeItem */
-	@Override
-	public int getNumModes(ItemStack stack) {
-
-		return getMaxRange(ItemHelper.getItemDamage(stack));
-	}
-
-	@Override
-	public void onModeChange(EntityPlayer player, ItemStack stack) {
-
-		player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
-
-		int radius = getRange(stack) * 2 + 1;
-		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
-	}
-
-	/* IEnergyContainerItem */
-	@Override
-	protected int getCapacity(ItemStack stack) {
-
-		if (!typeMap.containsKey(ItemHelper.getItemDamage(stack))) {
-			return 0;
-		}
-		int capacity = typeMap.get(ItemHelper.getItemDamage(stack)).capacity;
-		int enchant = EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack);
-
-		return capacity + capacity * enchant / 2;
-	}
-
-	@Override
-	protected int getReceive(ItemStack stack) {
-
-		if (!typeMap.containsKey(ItemHelper.getItemDamage(stack))) {
-			return 0;
-		}
-		return typeMap.get(ItemHelper.getItemDamage(stack)).xfer;
+		return false;
 	}
 
 	/* HELPERS */
-	public int getMaxRange(int metadata) {
-
-		if (!typeMap.containsKey(metadata)) {
-			return 0;
-		}
-		return typeMap.get(metadata).range;
-	}
-
-	public int getRange(ItemStack stack) {
-
-		return 1 + getMode(stack);
-	}
-
-	public int getBaseCapacity(int metadata) {
-
-		if (!typeMap.containsKey(metadata)) {
-			return 0;
-		}
-		return typeMap.get(metadata).capacity;
-	}
-
-	public ItemStack setDefaultTag(ItemStack stack, int energy) {
-
-		EnergyHelper.setDefaultEnergyTag(stack, energy);
-		stack.getTagCompound().setInteger("Mode", getNumModes(stack) - 1);
-		return stack;
-	}
-
-	protected int useEnergy(ItemStack stack, int count, boolean simulate) {
-
-		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
-			return 0;
-		}
-		int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack), 0, 10);
-		if (MathHelper.RANDOM.nextInt(2 + unbreakingLevel) >= 2) {
-			return 0;
-		}
-		return extractEnergy(stack, count * ENERGY_PER_USE, simulate);
-	}
-
 	protected boolean harvestBlock(World world, BlockPos pos, EntityPlayer player) {
 
 		if (world.isAirBlock(pos)) {
@@ -215,15 +144,14 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 
+		// only harvestable plants
 		if (!(block instanceof IGrowable)) {
 			return false;
 		}
-
 		IGrowable grow = (IGrowable) block;
 		if (grow.canGrow(world, pos, state, world.isRemote)) {
 			return false;
 		}
-
 		if (!ForgeHooks.canHarvestBlock(block, player, world, pos)) {
 			return false;
 		}
@@ -270,17 +198,94 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		return true;
 	}
 
+	@Override
+	protected int getCapacity(ItemStack stack) {
+
+		if (!typeMap.containsKey(ItemHelper.getItemDamage(stack))) {
+			return 0;
+		}
+		int capacity = typeMap.get(ItemHelper.getItemDamage(stack)).capacity;
+		int enchant = EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack);
+
+		return capacity + capacity * enchant / 2;
+	}
+
+	@Override
+	protected int getReceive(ItemStack stack) {
+
+		if (!typeMap.containsKey(ItemHelper.getItemDamage(stack))) {
+			return 0;
+		}
+		return typeMap.get(ItemHelper.getItemDamage(stack)).recv;
+	}
+
+	protected int useEnergy(ItemStack stack, int count, boolean simulate) {
+
+		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
+			return 0;
+		}
+		int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack), 0, 10);
+		if (MathHelper.RANDOM.nextInt(2 + unbreakingLevel) >= 2) {
+			return 0;
+		}
+		return extractEnergy(stack, count * ENERGY_PER_USE, simulate);
+	}
+
+	public int getBaseCapacity(int metadata) {
+
+		if (!typeMap.containsKey(metadata)) {
+			return 0;
+		}
+		return typeMap.get(metadata).capacity;
+	}
+
+	public int getMaxRadius(int metadata) {
+
+		if (!typeMap.containsKey(metadata)) {
+			return 0;
+		}
+		return typeMap.get(metadata).radius;
+	}
+
+	public int getRadius(ItemStack stack) {
+
+		return 1 + getMode(stack);
+	}
+
+	/* IMultiModeItem */
+	@Override
+	public int getNumModes(ItemStack stack) {
+
+		return getMaxRadius(ItemHelper.getItemDamage(stack));
+	}
+
+	@Override
+	public void onModeChange(EntityPlayer player, ItemStack stack) {
+
+		player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
+
+		int radius = getRadius(stack) * 2 + 1;
+		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
+	}
+
+	/* IEnchantableItem */
+	@Override
+	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
+
+		return ItemHelper.getItemDamage(stack) != CREATIVE && enchantment == CoreEnchantments.holding;
+	}
+
 	/* IInitializer */
 	@Override
 	public boolean initialize() {
 
 		config();
 
-		scytheBasic = addEntryItem(0, "standard0", XFER[0], CAPACITY[0], 1, EnumRarity.COMMON);
-		scytheHardened = addEntryItem(1, "standard1", XFER[0], CAPACITY[1], 2, EnumRarity.COMMON);
-		scytheReinforced = addEntryItem(2, "standard2", XFER[0], CAPACITY[2], 3, EnumRarity.UNCOMMON);
-		scytheSignalum = addEntryItem(3, "standard3", XFER[0], CAPACITY[3], 4, EnumRarity.UNCOMMON);
-		scytheReinforced = addEntryItem(4, "standard4", XFER[0], CAPACITY[4], 5, EnumRarity.RARE);
+		scytheBasic = addEntryItem(0, "standard0", CAPACITY[0], XFER[0], 1, EnumRarity.COMMON);
+		scytheHardened = addEntryItem(1, "standard1", CAPACITY[1], XFER[1], 2, EnumRarity.COMMON);
+		scytheReinforced = addEntryItem(2, "standard2", CAPACITY[2], XFER[2], 3, EnumRarity.UNCOMMON);
+		scytheSignalum = addEntryItem(3, "standard3", CAPACITY[3], XFER[3], 4, EnumRarity.UNCOMMON);
+		scytheResonant = addEntryItem(4, "standard4", CAPACITY[4], XFER[4], 5, EnumRarity.RARE);
 
 		scytheCreative = addEntryItem(CREATIVE, "creative", XFER[0], CAPACITY[4], 5, EnumRarity.EPIC);
 
@@ -295,6 +300,20 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		if (!enable) {
 			return false;
 		}
+		// @formatter:off
+
+//		addShapedRecipe(drillBasic,
+//				" X ",
+//				"ICI",
+//				"RYR",
+//				'C', "blockCopper",
+//				'I', "gearLead",
+//				'R', "dustRedstone",
+//				'X', "blockIron",
+//				'Y', ItemMaterial.powerCoilGold
+//		);
+
+		// @formatter:on
 
 		return true;
 	}
@@ -324,37 +343,38 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	public class TypeEntry {
 
 		public final String name;
-		public final int xfer;
-		public final int capacity;
-		public final int range;
 
-		TypeEntry(String name, int xfer, int capacity, int range) {
+		public final int capacity;
+		public final int recv;
+		public final int radius;
+
+		TypeEntry(String name, int capacity, int recv, int radius) {
 
 			this.name = name;
-			this.xfer = xfer;
 			this.capacity = capacity;
-			this.range = range;
+			this.recv = recv;
+			this.radius = radius;
 		}
 	}
 
-	private void addEntry(int metadata, String name, int xfer, int capacity, int range) {
+	private void addEntry(int metadata, String name, int capacity, int xfer, int radius) {
 
-		typeMap.put(metadata, new TypeEntry(name, xfer, capacity, range));
+		typeMap.put(metadata, new TypeEntry(name, capacity, xfer, radius));
 	}
 
-	private ItemStack addEntryItem(int metadata, String name, int xfer, int capacity, int range, EnumRarity rarity) {
+	private ItemStack addEntryItem(int metadata, String name, int capacity, int xfer, int radius, EnumRarity rarity) {
 
-		addEntry(metadata, name, xfer, capacity, range);
+		addEntry(metadata, name, capacity, xfer, radius);
 		return addItem(metadata, name, rarity);
 	}
 
 	private static TIntObjectHashMap<TypeEntry> typeMap = new TIntObjectHashMap<>();
 
-	public static final int CAPACITY_BASE = 1000000;
+	public static final int CAPACITY_BASE = 20000;
 	public static final int XFER_BASE = 1000;
 	public static final int ENERGY_PER_USE = 200;
 
-	public static final int[] CAPACITY = { 1, 4, 9, 16, 25 };
+	public static final int[] CAPACITY = { 1, 3, 6, 10, 15 };
 	public static final int[] XFER = { 1, 4, 9, 16, 25 };
 
 	public static boolean enable = true;
@@ -367,4 +387,5 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	public static ItemStack scytheResonant;
 
 	public static ItemStack scytheCreative;
+
 }

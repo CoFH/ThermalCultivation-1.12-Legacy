@@ -97,17 +97,17 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		}
 		int radius = getRadius(stack) * 2 + 1;
 
-		tooltip.add(StringHelper.getInfoText("info.thermalcultivation.watering_can.0"));
+		tooltip.add(StringHelper.getInfoText("info.thermalcultivation.watering_can.a.0"));
 		tooltip.add(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius);
 
 		if (getNumModes(stack) > 1) {
-			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.watering_can.1", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.watering_can.b.0", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
 		}
 		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
 			tooltip.add(StringHelper.localize(FluidRegistry.WATER.getUnlocalizedName()) + ": " + StringHelper.localize("info.cofh.infinite"));
 		} else {
 			tooltip.add(StringHelper.localize(StringHelper.localize(FluidRegistry.WATER.getUnlocalizedName()) + ": " + StringHelper.formatNumber(getWaterStored(stack)) + " / " + StringHelper.formatNumber(getCapacity(stack)) + " mB"));
-			tooltip.add(StringHelper.getNoticeText("info.thermalcultivation.watering_can.2"));
+			tooltip.add(StringHelper.getNoticeText("info.thermalcultivation.watering_can.c.0"));
 		}
 	}
 
@@ -265,16 +265,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	}
 
 	/* HELPERS */
-	public boolean isActive(ItemStack stack) {
-
-		return stack.getTagCompound() != null && stack.getTagCompound().hasKey("Active");
-	}
-
-	public void setActive(ItemStack stack, EntityPlayer player) {
-
-		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime() + 10);
-	}
-
 	public int getBaseCapacity(int metadata) {
 
 		if (!typeMap.containsKey(metadata)) {
@@ -318,6 +308,16 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 			setDefaultTag(stack, 0);
 		}
 		return stack.getTagCompound().getInteger("Water");
+	}
+
+	public boolean isActive(ItemStack stack) {
+
+		return stack.getTagCompound() != null && stack.getTagCompound().hasKey("Active");
+	}
+
+	public void setActive(ItemStack stack, EntityPlayer player) {
+
+		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime() + 10);
 	}
 
 	/* IModelRegister */

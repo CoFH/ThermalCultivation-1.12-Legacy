@@ -1,8 +1,8 @@
 #pl_PL
 
-info.thermalcultivation.watering_can.0=Nawadnia pola uprawne i przyspiesza wzrost roślin.
-info.thermalcultivation.watering_can.1=§eNaciśnij (%s), aby dostosować obszar.§r
-info.thermalcultivation.watering_can.2=Woda może być zbierana podczas kucania.
+info.thermalcultivation.watering_can.a.0=Nawadnia pola uprawne i przyspiesza wzrost roślin.
+info.thermalcultivation.watering_can.b.0=§eNaciśnij (%s), aby dostosować obszar.§r
+info.thermalcultivation.watering_can.b.1=Woda może być zbierana podczas kucania.
 
 item.thermalcultivation.watering_can.creative.name=Konewka (Kreatywny)
 item.thermalcultivation.watering_can.standard0.name=Konewka (Podstawowa)

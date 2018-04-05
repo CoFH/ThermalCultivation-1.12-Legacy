@@ -22,12 +22,12 @@ public class TCItems {
 	public static void preInit() {
 
 		itemWateringCan = new ItemWateringCan();
-		itemSeedBag = new ItemSeedBag();
 		itemScythe = new ItemScythe();
+		itemSeedBag = new ItemSeedBag();
 
 		initList.add(itemWateringCan);
-		initList.add(itemSeedBag);
 		initList.add(itemScythe);
+		initList.add(itemSeedBag);
 
 		for (IInitializer init : initList) {
 			init.initialize();
@@ -48,7 +48,7 @@ public class TCItems {
 
 	/* REFERENCES */
 	public static ItemWateringCan itemWateringCan;
-	public static ItemSeedBag itemSeedBag;
 	public static ItemScythe itemScythe;
+	public static ItemSeedBag itemSeedBag;
 
 }
