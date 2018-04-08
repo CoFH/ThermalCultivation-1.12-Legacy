@@ -32,7 +32,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -345,7 +345,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_TRIPWIRE_CLICK_ON, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
 
 		int radius = getRange(stack) * 2 + 1;
-		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
+		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentTranslation("info.cofh.area").appendText(": " + radius + "x" + radius));
 	}
 
 	/* IInventoryContainerItem */
@@ -380,11 +380,9 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		if (!enable) {
 			return false;
 		}
-
 		// @formatter:off
 
         // @formatter:on
-
 		return true;
 	}
 

@@ -28,7 +28,7 @@ import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -265,7 +265,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
 
 		int radius = getRadius(stack) * 2 + 1;
-		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
+		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentTranslation("info.cofh.area").appendText(": " + radius + "x" + radius));
 	}
 
 	/* IEnchantableItem */
@@ -301,7 +301,6 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 			return false;
 		}
 		// @formatter:off
-
 //		addShapedRecipe(drillBasic,
 //				" X ",
 //				"ICI",
@@ -312,9 +311,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 //				'X', "blockIron",
 //				'Y', ItemMaterial.powerCoilGold
 //		);
-
 		// @formatter:on
-
 		return true;
 	}
 

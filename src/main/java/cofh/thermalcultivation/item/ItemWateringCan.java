@@ -39,7 +39,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.IPlantable;
@@ -349,7 +349,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		player.world.playSound(null, player.getPosition(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 0.6F, 1.0F - 0.1F * getMode(stack));
 
 		int radius = getRadius(stack) * 2 + 1;
-		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentString(StringHelper.localize("info.cofh.area") + ": " + radius + "x" + radius));
+		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentTranslation("info.cofh.area").appendText(": " + radius + "x" + radius));
 	}
 
 	/* IFluidContainerItem */
@@ -456,17 +456,14 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 			return false;
 		}
 		// @formatter:off
-
-	addShapedRecipe(wateringCanBasic,
+		addShapedRecipe(wateringCanBasic,
 				"I  ",
 				"IXI",
 				" I ",
 				'I', "ingotCopper",
 				'X', Items.BUCKET
 		);
-
 		// @formatter:on
-
 		return true;
 	}
 
