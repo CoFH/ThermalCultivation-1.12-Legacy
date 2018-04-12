@@ -4,7 +4,10 @@ import cofh.core.util.core.IInitializer;
 import cofh.thermalcultivation.item.ItemScythe;
 import cofh.thermalcultivation.item.ItemSeedBag;
 import cofh.thermalcultivation.item.ItemWateringCan;
+import cofh.thermalfoundation.init.TFProps;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -31,6 +34,12 @@ public class TCItems {
 
 		for (IInitializer init : initList) {
 			init.initialize();
+		}
+		for (int i = 0; i < 5; i++) {
+			ItemStack iconStack = new ItemStack(itemWateringCan, 1, 1);
+			iconStack.setTagCompound(new NBTTagCompound());
+			iconStack.getTagCompound().setBoolean("CreativeTab", true);
+			TFProps.toolList.add(iconStack.copy());
 		}
 		MinecraftForge.EVENT_BUS.register(INSTANCE);
 	}

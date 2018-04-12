@@ -14,6 +14,7 @@ import cofh.core.util.core.IInitializer;
 import cofh.core.util.helpers.*;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalcultivation.gui.GuiHandler;
+import cofh.thermalfoundation.init.TFProps;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
@@ -51,7 +52,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		super("thermalcultivation");
 
 		setUnlocalizedName("seed_bag");
-		setCreativeTab(ThermalCultivation.tabCommon);
+		setCreativeTab(ThermalCultivation.tabTools);
 
 		setHasSubtypes(true);
 		setMaxStackSize(1);
@@ -62,7 +63,13 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 
 		if (isInCreativeTab(tab)) {
 			for (int metadata : itemList) {
-				items.add(setDefaultInventoryTag(new ItemStack(this, 1, metadata)));
+				if (metadata != CREATIVE) {
+					items.add(setDefaultInventoryTag(new ItemStack(this, 1, metadata)));
+				} else {
+					if (TFProps.showCreativeItems) {
+						items.add(setDefaultInventoryTag(new ItemStack(this, 1, metadata)));
+					}
+				}
 			}
 		}
 	}

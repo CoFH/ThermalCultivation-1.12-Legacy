@@ -42,7 +42,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		super("thermalcultivation");
 
 		setUnlocalizedName("scythe");
-		setCreativeTab(ThermalCultivation.tabCommon);
+		setCreativeTab(ThermalCultivation.tabUtils);
 
 		setHasSubtypes(true);
 		setMaxStackSize(1);

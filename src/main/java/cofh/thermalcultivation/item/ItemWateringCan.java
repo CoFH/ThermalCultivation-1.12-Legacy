@@ -16,6 +16,7 @@ import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.ServerHelper;
 import cofh.core.util.helpers.StringHelper;
 import cofh.thermalcultivation.ThermalCultivation;
+import cofh.thermalfoundation.init.TFProps;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
@@ -64,7 +65,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		super("thermalcultivation");
 
 		setUnlocalizedName("watering_can");
-		setCreativeTab(ThermalCultivation.tabCommon);
+		setCreativeTab(ThermalCultivation.tabTools);
 
 		setHasSubtypes(true);
 		setMaxStackSize(1);
@@ -117,10 +118,16 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (isInCreativeTab(tab)) {
 			for (int metadata : itemList) {
 				if (metadata != CREATIVE) {
-					items.add(setDefaultTag(new ItemStack(this, 1, metadata), 0));
-					items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
+					if (TFProps.showEmptyItems) {
+						items.add(setDefaultTag(new ItemStack(this, 1, metadata), 0));
+					}
+					if (TFProps.showFullItems) {
+						items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
+					}
 				} else {
-					items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
+					if (TFProps.showCreativeItems) {
+						items.add(setDefaultTag(new ItemStack(this, 1, metadata), getBaseCapacity(metadata)));
+					}
 				}
 			}
 		}
@@ -160,7 +167,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 
-		return ItemHelper.getItemDamage(stack) != CREATIVE && !stack.getTagCompound().getBoolean("CreativeTab");
+		return ItemHelper.getItemDamage(stack) != CREATIVE && (stack.getTagCompound() == null || !stack.getTagCompound().getBoolean("CreativeTab"));
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package cofh.thermalcultivation.init;
 
 import cofh.core.gui.CreativeTabCore;
 import cofh.thermalcultivation.ThermalCultivation;
+import cofh.thermalfoundation.ThermalFoundation;
+import cofh.thermalfoundation.init.TFProps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,20 +31,31 @@ public class TCProps {
 	private static void configClient() {
 
 		/* CREATIVE TABS */
-		ThermalCultivation.tabCommon = new CreativeTabCore("thermalcultivation") {
+		if (TFProps.useUnifiedTabs) {
+			ThermalCultivation.tabCommon = ThermalFoundation.tabCommon;
+			ThermalCultivation.tabItems = ThermalFoundation.tabItems;
+			ThermalCultivation.tabUtils = ThermalFoundation.tabUtils;
 
-			@Override
-			@SideOnly (Side.CLIENT)
-			public ItemStack getIconItemStack() {
+			TFProps.initToolTab();
+			ThermalCultivation.tabTools = ThermalFoundation.tabTools;
+		} else {
+			ThermalCultivation.tabCommon = new CreativeTabCore("thermalcultivation") {
 
-				ItemStack iconStack = new ItemStack(TCItems.itemWateringCan, 1, 1);
-				iconStack.setTagCompound(new NBTTagCompound());
-				iconStack.getTagCompound().setBoolean("CreativeTab", true);
+				@Override
+				@SideOnly (Side.CLIENT)
+				public ItemStack getTabIconItem() {
 
-				return iconStack;
-			}
+					ItemStack iconStack = new ItemStack(TCItems.itemWateringCan, 1, 1);
+					iconStack.setTagCompound(new NBTTagCompound());
+					iconStack.getTagCompound().setBoolean("CreativeTab", true);
 
-		};
+					return iconStack;
+				}
+			};
+			ThermalCultivation.tabItems = ThermalCultivation.tabCommon;
+			ThermalCultivation.tabUtils = ThermalCultivation.tabCommon;
+			ThermalCultivation.tabTools = ThermalCultivation.tabCommon;
+		}
 	}
 
 }

@@ -36,7 +36,7 @@ public class ThermalCultivation {
 	public static final String VERSION_GROUP = "required-after:" + MOD_ID + "@[" + VERSION + "," + VERSION_MAX + ");";
 	public static final String UPDATE_URL = "https://raw.github.com/cofh/version/master/" + MOD_ID + "_update.json";
 
-	public static final String DEPENDENCIES = CoFHCore.VERSION_GROUP + ThermalFoundation.VERSION_GROUP;
+	public static final String DEPENDENCIES = CoFHCore.VERSION_GROUP + ThermalFoundation.VERSION_GROUP + "after:thermalexpansion";
 	public static final String MOD_GUI_FACTORY = "cofh.thermalcultivation.gui.GuiConfigTCFactory";
 
 	@Instance (MOD_ID)
@@ -50,7 +50,10 @@ public class ThermalCultivation {
 	public static final ConfigHandler CONFIG_CLIENT = new ConfigHandler(VERSION);
 	public static final GuiHandler GUI_HANDLER = new GuiHandler();
 
-	public static CreativeTabs tabCommon;
+	public static CreativeTabs tabCommon;       // Blocks and general stuff.
+	public static CreativeTabs tabItems;        // Non-usable items.
+	public static CreativeTabs tabUtils;        // Usable items, non-tiered.
+	public static CreativeTabs tabTools;        // Usable items, tiered.                (Unified Tabs Only)
 
 	public ThermalCultivation() {
 
