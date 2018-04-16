@@ -3,7 +3,6 @@ package cofh.thermalcultivation;
 import cofh.CoFHCore;
 import cofh.core.init.CoreProps;
 import cofh.core.util.ConfigHandler;
-import cofh.thermalcultivation.gui.GuiHandler;
 import cofh.thermalcultivation.init.TCBlocks;
 import cofh.thermalcultivation.init.TCItems;
 import cofh.thermalcultivation.init.TCProps;
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,7 +46,8 @@ public class ThermalCultivation {
 	public static final Logger LOG = LogManager.getLogger(MOD_ID);
 	public static final ConfigHandler CONFIG = new ConfigHandler(VERSION);
 	public static final ConfigHandler CONFIG_CLIENT = new ConfigHandler(VERSION);
-	public static final GuiHandler GUI_HANDLER = new GuiHandler();
+	// TODO: Seed bag.
+	// public static final GuiHandler GUI_HANDLER = new GuiHandler();
 
 	public static CreativeTabs tabCommon;       // Blocks and general stuff.
 	public static CreativeTabs tabItems;        // Non-usable items.
@@ -102,7 +101,8 @@ public class ThermalCultivation {
 	/* HELPERS */
 	private void registerHandlers() {
 
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, GUI_HANDLER);
+		// TODO: Seed bag.
+		// NetworkRegistry.INSTANCE.registerGuiHandler(instance, GUI_HANDLER);
 
 	}
 

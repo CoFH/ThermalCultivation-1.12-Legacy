@@ -41,6 +41,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 		super("thermalcultivation");
 
+		register("scythe");
 		setUnlocalizedName("scythe");
 		setCreativeTab(ThermalCultivation.tabUtils);
 

@@ -28,7 +28,8 @@ public class ProxyClient extends Proxy {
 
 		super.initialize(event);
 
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ItemSeedBag::colorMultiplier, TCItems.itemSeedBag);
+		// TODO: Seed bag.
+		// Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ItemSeedBag::colorMultiplier, TCItems.itemSeedBag);
 	}
 
 	@Override

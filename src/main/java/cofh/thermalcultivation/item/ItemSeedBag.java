@@ -51,6 +51,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 
 		super("thermalcultivation");
 
+		register("seed_bag");
 		setUnlocalizedName("seed_bag");
 		setCreativeTab(ThermalCultivation.tabTools);
 

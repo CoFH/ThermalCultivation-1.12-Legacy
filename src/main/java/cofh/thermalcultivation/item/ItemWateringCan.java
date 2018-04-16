@@ -64,6 +64,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 
 		super("thermalcultivation");
 
+		register("watering_can");
 		setUnlocalizedName("watering_can");
 		setCreativeTab(ThermalCultivation.tabTools);
 
