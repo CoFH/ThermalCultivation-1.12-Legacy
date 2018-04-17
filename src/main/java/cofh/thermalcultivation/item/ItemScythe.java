@@ -104,8 +104,13 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		World world = player.world;
 		IBlockState state = world.getBlockState(pos);
 
-		world.playEvent(2001, pos, Block.getStateId(state));
-
+		// world.playEvent(2001, pos, Block.getStateId(state));
+		if (player.isSneaking()) {
+			if (!player.capabilities.isCreativeMode) {
+				useEnergy(stack, 1, false);
+			}
+			return false;
+		}
 		BlockPos adjPos;
 		int count = 0;
 
