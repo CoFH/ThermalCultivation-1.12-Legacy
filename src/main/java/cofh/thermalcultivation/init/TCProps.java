@@ -1,6 +1,7 @@
 package cofh.thermalcultivation.init;
 
 import cofh.core.gui.CreativeTabCore;
+import cofh.core.init.CoreProps;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalfoundation.ThermalFoundation;
 import cofh.thermalfoundation.init.TFProps;
@@ -47,7 +48,7 @@ public class TCProps {
 
 					ItemStack iconStack = new ItemStack(TCItems.itemWateringCan, 1, 1);
 					iconStack.setTagCompound(new NBTTagCompound());
-					iconStack.getTagCompound().setBoolean("CreativeTab", true);
+					iconStack.getTagCompound().setBoolean(CoreProps.CREATIVE_TAB, true);
 
 					return iconStack;
 				}

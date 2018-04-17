@@ -1,5 +1,6 @@
 package cofh.thermalcultivation.init;
 
+import cofh.core.init.CoreProps;
 import cofh.core.util.core.IInitializer;
 import cofh.thermalcultivation.item.ItemScythe;
 import cofh.thermalcultivation.item.ItemSeedBag;
@@ -39,7 +40,7 @@ public class TCItems {
 		for (int i = 0; i < 5; i++) {
 			ItemStack iconStack = new ItemStack(itemWateringCan, 1, 1);
 			iconStack.setTagCompound(new NBTTagCompound());
-			iconStack.getTagCompound().setBoolean("CreativeTab", true);
+			iconStack.getTagCompound().setBoolean(CoreProps.CREATIVE_TAB, true);
 			TFProps.toolList.add(iconStack.copy());
 		}
 		MinecraftForge.EVENT_BUS.register(INSTANCE);

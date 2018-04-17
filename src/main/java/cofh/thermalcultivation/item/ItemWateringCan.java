@@ -82,8 +82,8 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (stack.getTagCompound() == null) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		stack.getTagCompound().setInteger("Water", water);
-		stack.getTagCompound().setInteger("Mode", getNumModes(stack) - 1);
+		stack.getTagCompound().setInteger(CoreProps.WATER, water);
+		stack.getTagCompound().setInteger(CoreProps.MODE, getNumModes(stack) - 1);
 
 		return stack;
 	}
@@ -105,7 +105,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (getNumModes(stack) > 1) {
 			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.watering_can.b.0", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
 		}
-		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
+		if (isCreative(stack)) {
 			tooltip.add(StringHelper.localize(FluidRegistry.WATER.getUnlocalizedName()) + ": " + StringHelper.localize("info.cofh.infinite"));
 		} else {
 			tooltip.add(StringHelper.localize(StringHelper.localize(FluidRegistry.WATER.getUnlocalizedName()) + ": " + StringHelper.formatNumber(getWaterStored(stack)) + " / " + StringHelper.formatNumber(getCapacity(stack)) + " mB"));
@@ -140,10 +140,10 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (!isActive(stack)) {
 			return;
 		}
-		long activeTime = stack.getTagCompound().getLong("Active");
+		long activeTime = stack.getTagCompound().getLong(CoreProps.ACTIVE);
 
 		if (entity.world.getTotalWorldTime() > activeTime) {
-			stack.getTagCompound().removeTag("Active");
+			stack.getTagCompound().removeTag(CoreProps.ACTIVE);
 		}
 	}
 
@@ -156,7 +156,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean isEnchantable(ItemStack stack) {
 
-		return ItemHelper.getItemDamage(stack) != CREATIVE;
+		return !isCreative(stack);
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 
-		return ItemHelper.getItemDamage(stack) != CREATIVE && (stack.getTagCompound() == null || !stack.getTagCompound().getBoolean("CreativeTab"));
+		return !isCreative(stack) && (stack.getTagCompound() == null || !stack.getTagCompound().getBoolean(CoreProps.CREATIVE_TAB));
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (stack.getTagCompound() == null) {
 			setDefaultTag(stack, 0);
 		}
-		return 1.0D - ((double) stack.getTagCompound().getInteger("Water") / (double) getCapacity(stack));
+		return 1.0D - ((double) stack.getTagCompound().getInteger(CoreProps.WATER) / (double) getCapacity(stack));
 	}
 
 	@Override
@@ -315,17 +315,17 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (stack.getTagCompound() == null) {
 			setDefaultTag(stack, 0);
 		}
-		return stack.getTagCompound().getInteger("Water");
+		return stack.getTagCompound().getInteger(CoreProps.WATER);
 	}
 
 	public boolean isActive(ItemStack stack) {
 
-		return stack.getTagCompound() != null && stack.getTagCompound().hasKey("Active");
+		return stack.getTagCompound() != null && stack.getTagCompound().hasKey(CoreProps.ACTIVE);
 	}
 
 	public void setActive(ItemStack stack, EntityPlayer player) {
 
-		stack.getTagCompound().setLong("Active", player.world.getTotalWorldTime() + 10);
+		stack.getTagCompound().setLong(CoreProps.ACTIVE, player.world.getTotalWorldTime() + 10);
 	}
 
 	/* IModelRegister */
@@ -367,7 +367,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (container.getTagCompound() == null) {
 			setDefaultTag(container, 0);
 		}
-		int stored = container.getTagCompound().getInteger("Water");
+		int stored = container.getTagCompound().getInteger(CoreProps.WATER);
 		return new FluidStack(FluidRegistry.WATER, stored);
 	}
 
@@ -392,12 +392,12 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (resource == null || !FluidRegistry.WATER.equals(resource.getFluid())) {
 			return 0;
 		}
-		int stored = container.getTagCompound().getInteger("Water");
+		int stored = container.getTagCompound().getInteger(CoreProps.WATER);
 		int fill = Math.min(resource.amount, getCapacity(container) - stored);
 
-		if (doFill && ItemHelper.getItemDamage(container) != CREATIVE) {
+		if (doFill && !isCreative(container)) {
 			stored += fill;
-			container.getTagCompound().setInteger("Water", stored);
+			container.getTagCompound().setInteger(CoreProps.WATER, stored);
 		}
 		return fill;
 	}
@@ -411,15 +411,15 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 		if (maxDrain == 0) {
 			return null;
 		}
-		if (ItemHelper.getItemDamage(container) == CREATIVE) {
+		if (isCreative(container)) {
 			return new FluidStack(FluidRegistry.WATER, maxDrain);
 		}
-		int stored = container.getTagCompound().getInteger("Water");
+		int stored = container.getTagCompound().getInteger(CoreProps.WATER);
 		int drain = Math.min(maxDrain, stored);
 
 		if (doDrain) {
 			stored -= drain;
-			container.getTagCompound().setInteger("Water", stored);
+			container.getTagCompound().setInteger(CoreProps.WATER, stored);
 		}
 		return new FluidStack(FluidRegistry.WATER, drain);
 	}
@@ -428,7 +428,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
 
-		return ItemHelper.getItemDamage(stack) != CREATIVE && enchantment == CoreEnchantments.holding;
+		return !isCreative(stack) && enchantment == CoreEnchantments.holding;
 	}
 
 	/* CAPABILITIES */
@@ -528,7 +528,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	private static TIntObjectHashMap<TypeEntry> typeMap = new TIntObjectHashMap<>();
 
 	public static final int CAPACITY_BASE = 4000;
-	public static final int CREATIVE = 32000;
 
 	public static final int[] CAPACITY = { 1, 3, 6, 10, 15 };
 	public static final int[] CHANCE = { 40, 50, 60, 70, 80 };

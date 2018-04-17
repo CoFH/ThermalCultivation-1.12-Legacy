@@ -210,7 +210,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		if (container.getTagCompound() == null) {
 			container.setTagCompound(new NBTTagCompound());
 		}
-		container.getTagCompound().setInteger("Mode", getNumModes(container) - 1);
+		container.getTagCompound().setInteger(CoreProps.MODE, getNumModes(container) - 1);
 		return container;
 	}
 
@@ -284,11 +284,6 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		}
 		eventItem.setCount(0);
 		return eventItem.isEmpty();
-	}
-
-	public static boolean isCreative(ItemStack stack) {
-
-		return ItemHelper.getItemDamage(stack) == CREATIVE;
 	}
 
 	public static int getLevel(ItemStack stack) {

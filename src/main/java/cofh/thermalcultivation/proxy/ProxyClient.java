@@ -1,9 +1,6 @@
 package cofh.thermalcultivation.proxy;
 
 import cofh.core.render.IModelRegister;
-import cofh.thermalcultivation.init.TCItems;
-import cofh.thermalcultivation.item.ItemSeedBag;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

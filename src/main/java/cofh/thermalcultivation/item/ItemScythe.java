@@ -3,6 +3,7 @@ package cofh.thermalcultivation.item;
 import cofh.api.item.IMultiModeItem;
 import cofh.api.item.INBTCopyIngredient;
 import cofh.core.init.CoreEnchantments;
+import cofh.core.init.CoreProps;
 import cofh.core.item.ItemMultiRF;
 import cofh.core.key.KeyBindingItemMultiMode;
 import cofh.core.util.core.IInitializer;
@@ -53,7 +54,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	public ItemStack setDefaultTag(ItemStack stack, int energy) {
 
 		EnergyHelper.setDefaultEnergyTag(stack, energy);
-		stack.getTagCompound().setInteger("Mode", getNumModes(stack) - 1);
+		stack.getTagCompound().setInteger(CoreProps.MODE, getNumModes(stack) - 1);
 
 		return stack;
 	}
@@ -75,7 +76,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		if (getNumModes(stack) > 1) {
 			tooltip.add(StringHelper.localizeFormat("info.thermalcultivation.scythe.b.0", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
 		}
-		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
+		if (isCreative(stack)) {
 			tooltip.add(StringHelper.localize("info.cofh.charge") + ": 1.21G RF");
 		} else {
 			tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.getScaledNumber(getEnergyStored(stack)) + " / " + StringHelper.getScaledNumber(getMaxEnergyStored(stack)) + " RF");
@@ -222,7 +223,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 	protected int useEnergy(ItemStack stack, int count, boolean simulate) {
 
-		if (ItemHelper.getItemDamage(stack) == CREATIVE) {
+		if (isCreative(stack)) {
 			return 0;
 		}
 		int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack), 0, 10);
