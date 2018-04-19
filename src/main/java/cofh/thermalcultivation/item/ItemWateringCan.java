@@ -168,7 +168,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IMultiMo
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 
-		return !isCreative(stack) && (stack.getTagCompound() == null || !stack.getTagCompound().getBoolean(CoreProps.CREATIVE_TAB));
+		return !isCreative(stack) && getWaterStored(stack) > 0;
 	}
 
 	@Override
