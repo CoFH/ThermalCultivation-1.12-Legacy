@@ -189,16 +189,6 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		//		}
 	}
 
-	/* IModelRegister */
-	@Override
-	@SideOnly (Side.CLIENT)
-	public void registerModels() {
-
-		for (int i = 0; i < Type.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation(modName + ":" + name, "tilled=false,type=" + Type.byMetadata(i).getName()));
-		}
-	}
-
 	/* EVENT HANDLING */
 	@SubscribeEvent
 	public void handleUseHoeEvent(UseHoeEvent event) {
@@ -213,6 +203,16 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 			} else {
 				event.setCanceled(true);
 			}
+		}
+	}
+
+	/* IModelRegister */
+	@Override
+	@SideOnly (Side.CLIENT)
+	public void registerModels() {
+
+		for (int i = 0; i < Type.values().length; i++) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation(modName + ":" + name, "tilled=false,type=" + Type.byMetadata(i).getName()));
 		}
 	}
 
