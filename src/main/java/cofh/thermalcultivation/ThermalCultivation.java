@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-@Mod (modid = ThermalCultivation.MOD_ID, name = ThermalCultivation.MOD_NAME, version = ThermalCultivation.VERSION, dependencies = ThermalCultivation.DEPENDENCIES, updateJSON = ThermalCultivation.UPDATE_URL)
+@Mod (modid = ThermalCultivation.MOD_ID, name = ThermalCultivation.MOD_NAME, version = ThermalCultivation.VERSION, dependencies = ThermalCultivation.DEPENDENCIES, updateJSON = ThermalCultivation.UPDATE_URL, certificateFingerprint = "8a6abf2cb9e141b866580d369ba6548732eff25f")
 public class ThermalCultivation {
 
 	public static final String MOD_ID = "thermalcultivation";

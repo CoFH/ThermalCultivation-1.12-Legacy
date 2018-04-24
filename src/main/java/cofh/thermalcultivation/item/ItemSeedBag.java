@@ -37,6 +37,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -51,7 +52,6 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 
 		super("thermalcultivation");
 
-		register("seed_bag");
 		setUnlocalizedName("seed_bag");
 		setCreativeTab(ThermalCultivation.tabTools);
 
@@ -362,6 +362,9 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 	@Override
 	public boolean initialize() {
 
+		ForgeRegistries.ITEMS.register(setRegistryName("seed_bag"));
+		ThermalCultivation.proxy.addIModelRegister(this);
+
 		config();
 
 		seedBagBasic = addEntryItem(0, "standard0", 0, 1, EnumRarity.COMMON);
@@ -371,8 +374,6 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		seedBagResonant = addEntryItem(4, "standard4", 4, 5, EnumRarity.RARE);
 
 		seedBagCreative = addEntryItem(CREATIVE, "creative", 4, 5, EnumRarity.EPIC);
-
-		ThermalCultivation.proxy.addIModelRegister(this);
 
 		return true;
 	}

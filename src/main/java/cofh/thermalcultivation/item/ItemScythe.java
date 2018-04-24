@@ -32,6 +32,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -42,7 +43,6 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 		super("thermalcultivation");
 
-		register("scythe");
 		setUnlocalizedName("scythe");
 		setCreativeTab(ThermalCultivation.tabUtils);
 
@@ -286,6 +286,9 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	@Override
 	public boolean initialize() {
 
+		ForgeRegistries.ITEMS.register(setRegistryName("scythe"));
+		ThermalCultivation.proxy.addIModelRegister(this);
+
 		config();
 
 		scytheBasic = addEntryItem(0, "standard0", CAPACITY[0], XFER[0], 1, EnumRarity.COMMON);
@@ -295,8 +298,6 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		scytheResonant = addEntryItem(4, "standard4", CAPACITY[4], XFER[4], 5, EnumRarity.RARE);
 
 		scytheCreative = addEntryItem(CREATIVE, "creative", XFER[0], CAPACITY[4], 5, EnumRarity.EPIC);
-
-		ThermalCultivation.proxy.addIModelRegister(this);
 
 		return true;
 	}

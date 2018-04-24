@@ -47,6 +47,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -62,7 +63,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 
 		super("thermalcultivation");
 
-		register("watering_can");
 		setUnlocalizedName("watering_can");
 		setCreativeTab(ThermalCultivation.tabTools);
 
@@ -437,6 +437,9 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 	@Override
 	public boolean initialize() {
 
+		ForgeRegistries.ITEMS.register(setRegistryName("watering_can"));
+		ThermalCultivation.proxy.addIModelRegister(this);
+
 		config();
 
 		wateringCanBasic = addEntryItem(0, "standard0", CAPACITY[0], CHANCE[0], 1, EnumRarity.COMMON);
@@ -446,8 +449,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		wateringCanResonant = addEntryItem(4, "standard4", CAPACITY[4], CHANCE[4], 5, EnumRarity.RARE);
 
 		wateringCanCreative = addEntryItem(CREATIVE, "creative", CAPACITY[4], CHANCE_CREATIVE, 5, EnumRarity.EPIC);
-
-		ThermalCultivation.proxy.addIModelRegister(this);
 
 		return true;
 	}
