@@ -360,7 +360,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 
 	/* IInitializer */
 	@Override
-	public boolean initialize() {
+	public boolean preInit() {
 
 		ForgeRegistries.ITEMS.register(setRegistryName("seed_bag"));
 		ThermalCultivation.proxy.addIModelRegister(this);
@@ -379,7 +379,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 	}
 
 	@Override
-	public boolean register() {
+	public boolean initialize() {
 
 		if (!enable) {
 			return false;

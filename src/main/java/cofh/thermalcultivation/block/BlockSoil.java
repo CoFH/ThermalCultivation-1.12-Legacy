@@ -218,7 +218,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 
 	/* IInitializer */
 	@Override
-	public boolean initialize() {
+	public boolean preInit() {
 
 		this.setRegistryName("soil");
 		ForgeRegistries.BLOCKS.register(this);
@@ -239,7 +239,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	}
 
 	@Override
-	public boolean register() {
+	public boolean initialize() {
 
 		//		if (!Loader.isModLoaded("thermalexpansion")) {
 		//			addShapelessRecipe(soilRich, soilBasic, new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()));

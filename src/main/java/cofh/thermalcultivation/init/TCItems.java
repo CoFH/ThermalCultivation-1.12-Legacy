@@ -33,7 +33,7 @@ public class TCItems {
 		//		initList.add(itemSeedBag);
 
 		for (IInitializer init : initList) {
-			init.initialize();
+			init.preInit();
 		}
 		for (int i = 0; i < 5; i++) {
 			ItemStack iconStack = new ItemStack(itemWateringCan, 1, 1);
@@ -47,7 +47,7 @@ public class TCItems {
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 
 		for (IInitializer init : initList) {
-			init.register();
+			init.initialize();
 		}
 	}
 

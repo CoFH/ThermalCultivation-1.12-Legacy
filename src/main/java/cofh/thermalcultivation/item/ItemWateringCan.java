@@ -435,7 +435,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 
 	/* IInitializer */
 	@Override
-	public boolean initialize() {
+	public boolean preInit() {
 
 		ForgeRegistries.ITEMS.register(setRegistryName("watering_can"));
 		ThermalCultivation.proxy.addIModelRegister(this);
@@ -454,7 +454,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 	}
 
 	@Override
-	public boolean register() {
+	public boolean initialize() {
 
 		if (!enable) {
 			return false;

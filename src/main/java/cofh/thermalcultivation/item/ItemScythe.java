@@ -284,7 +284,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 	/* IInitializer */
 	@Override
-	public boolean initialize() {
+	public boolean preInit() {
 
 		ForgeRegistries.ITEMS.register(setRegistryName("scythe"));
 		ThermalCultivation.proxy.addIModelRegister(this);
@@ -303,7 +303,7 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	}
 
 	@Override
-	public boolean register() {
+	public boolean initialize() {
 
 		if (!enable) {
 			return false;
