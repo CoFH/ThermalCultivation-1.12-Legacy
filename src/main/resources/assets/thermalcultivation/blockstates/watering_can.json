@@ -43,6 +43,16 @@
 		}
 	},
 	"variants": {
+		"color0": {
+			"0": {
+
+			},
+			"1": {
+				"textures": {
+					"layer2": "thermalcultivation:items/watering_can/watering_can_color_0"
+				}
+			}
+		},
 		"type": {
 			"standard0": {
 				"textures": {

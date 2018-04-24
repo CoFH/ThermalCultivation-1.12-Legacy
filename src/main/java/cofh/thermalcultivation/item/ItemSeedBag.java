@@ -186,23 +186,23 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 	}
 
 	/* IItemColor */
-	public static int colorMultiplier(ItemStack stack, int tintIndex) {
-
-		if (tintIndex != 1) {
-			return 0xFFFFFF;
-		}
-		Item seedItem = getCurrentSeed(stack);
-		if (seedItem == null) {
-			return 0xFFFFFF;
-		}
-		if (colorMap.containsKey(seedItem)) {
-			return colorMap.get(seedItem);
-		} else {
-			int color = getSeedColor(seedItem);
-			colorMap.put(seedItem, color);
-			return color;
-		}
-	}
+	//	public static int colorMultiplier(ItemStack stack, int tintIndex) {
+	//
+	//		if (tintIndex != 1) {
+	//			return 0xFFFFFF;
+	//		}
+	//		Item seedItem = getCurrentSeed(stack);
+	//		if (seedItem == null) {
+	//			return 0xFFFFFF;
+	//		}
+	//		if (colorMap.containsKey(seedItem)) {
+	//			return colorMap.get(seedItem);
+	//		} else {
+	//			int color = getSeedColor(seedItem);
+	//			colorMap.put(seedItem, color);
+	//			return color;
+	//		}
+	//	}
 
 	/* HELPERS */
 	public ItemStack setDefaultInventoryTag(ItemStack container) {

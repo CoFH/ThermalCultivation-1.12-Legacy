@@ -1,6 +1,8 @@
 package cofh.thermalcultivation.proxy;
 
 import cofh.core.render.IModelRegister;
+import cofh.thermalcultivation.init.TCItems;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,6 +27,7 @@ public class ProxyClient extends Proxy {
 
 		super.initialize(event);
 
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(TCItems.itemWateringCan::colorMultiplier, TCItems.itemWateringCan);
 		// TODO: Seed bag.
 		// Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ItemSeedBag::colorMultiplier, TCItems.itemSeedBag);
 	}

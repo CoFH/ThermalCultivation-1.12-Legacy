@@ -11,10 +11,8 @@ import cofh.core.key.KeyBindingItemMultiMode;
 import cofh.core.util.RayTracer;
 import cofh.core.util.capabilities.FluidContainerItemWrapper;
 import cofh.core.util.core.IInitializer;
-import cofh.core.util.helpers.ChatHelper;
-import cofh.core.util.helpers.ItemHelper;
-import cofh.core.util.helpers.ServerHelper;
-import cofh.core.util.helpers.StringHelper;
+import cofh.core.util.crafting.FluidIngredientFactory.FluidIngredient;
+import cofh.core.util.helpers.*;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalfoundation.init.TFProps;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -56,7 +54,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-import static cofh.core.util.helpers.RecipeHelper.addShapedRecipe;
+import static cofh.core.util.helpers.RecipeHelper.*;
 
 public class ItemWateringCan extends ItemMulti implements IInitializer, IColorableItem, IEnchantableItem, IFluidContainerItem, IMultiModeItem {
 
@@ -318,11 +316,6 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		return stack.getTagCompound().getInteger(CoreProps.WATER);
 	}
 
-	public boolean isActive(ItemStack stack) {
-
-		return stack.getTagCompound() != null && stack.getTagCompound().hasKey(CoreProps.ACTIVE);
-	}
-
 	public void setActive(ItemStack stack, EntityPlayer player) {
 
 		stack.getTagCompound().setLong(CoreProps.ACTIVE, player.world.getTotalWorldTime() + 10);
@@ -427,13 +420,15 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 	@SideOnly (Side.CLIENT)
 	public void registerModels() {
 
-		ModelLoader.setCustomMeshDefinition(this, stack -> new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", typeMap.get(ItemHelper.getItemDamage(stack)).name, this.getWaterStored(stack) > 0 ? isActive(stack) ? "tipped" : "level" : "empty")));
+		ModelLoader.setCustomMeshDefinition(this, stack -> new ModelResourceLocation(getRegistryName(), String.format("color0=%s,type=%s,water=%s", ColorHelper.hasColor0(stack) ? 1 : 0, typeMap.get(ItemHelper.getItemDamage(stack)).name, this.getWaterStored(stack) > 0 ? isActive(stack) ? "tipped" : "level" : "empty")));
 
-		String[] waterStates = { "level", "tipped", "empty" };
+		String[] states = { "level", "tipped", "empty" };
 
 		for (Map.Entry<Integer, ItemEntry> entry : itemMap.entrySet()) {
-			for (int i = 0; i < 3; i++) {
-				ModelBakery.registerItemVariants(this, new ModelResourceLocation(getRegistryName(), String.format("type=%s,water=%s", entry.getValue().name, waterStates[i])));
+			for (int color0 = 0; color0 < 2; color0++) {
+				for (int state = 0; state < 3; state++) {
+					ModelBakery.registerItemVariants(this, new ModelResourceLocation(getRegistryName(), String.format("color0=%s,type=%s,water=%s", color0, entry.getValue().name, states[state])));
+				}
 			}
 		}
 	}
@@ -472,6 +467,18 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 				'X', Items.BUCKET
 		);
 		// @formatter:on
+
+		addColorRecipe(wateringCanBasic, wateringCanBasic, "dye");
+		addColorRecipe(wateringCanHardened, wateringCanHardened, "dye");
+		addColorRecipe(wateringCanReinforced, wateringCanReinforced, "dye");
+		addColorRecipe(wateringCanSignalum, wateringCanSignalum, "dye");
+		addColorRecipe(wateringCanResonant, wateringCanResonant, "dye");
+
+		addColorRemoveRecipe(wateringCanBasic, wateringCanBasic, new FluidIngredient("water"));
+		addColorRemoveRecipe(wateringCanHardened, wateringCanHardened, new FluidIngredient("water"));
+		addColorRemoveRecipe(wateringCanReinforced, wateringCanReinforced, new FluidIngredient("water"));
+		addColorRemoveRecipe(wateringCanSignalum, wateringCanSignalum, new FluidIngredient("water"));
+		addColorRemoveRecipe(wateringCanResonant, wateringCanResonant, new FluidIngredient("water"));
 		return true;
 	}
 
