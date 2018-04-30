@@ -226,7 +226,8 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		ItemStack stack = player.getHeldItem(hand);
 		BlockPos tracePos = traceResult.getBlockPos();
 		IBlockState traceState = world.getBlockState(tracePos);
-		BlockPos offsetPos = traceState.isSideSolid(world, tracePos, traceResult.sideHit) || traceState.getMaterial().isLiquid() ? tracePos.offset(traceResult.sideHit) : tracePos;
+		//BlockPos offsetPos = traceState.isSideSolid(world, tracePos, traceResult.sideHit) /*|| !traceState.isFullCube()*/ || traceState.getMaterial().isLiquid() ? tracePos.offset(traceResult.sideHit) : tracePos;
+		BlockPos offsetPos = tracePos.offset(traceResult.sideHit);
 
 		if (getWaterStored(stack) < WATER_PER_USE[0]) {
 			return EnumActionResult.FAIL;
@@ -357,7 +358,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		if (container.getTagCompound() == null) {
 			setDefaultTag(container, 0);
 		}
-		if (resource == null || !FluidRegistry.WATER.equals(resource.getFluid())) {
+		if (resource == null || resource.amount <= 0 || !FluidRegistry.WATER.equals(resource.getFluid())) {
 			return 0;
 		}
 		int stored = container.getTagCompound().getInteger(CoreProps.WATER);
