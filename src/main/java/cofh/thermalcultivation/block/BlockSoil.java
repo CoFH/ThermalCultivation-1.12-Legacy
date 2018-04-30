@@ -259,7 +259,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		RICH(1, "rich"),
 		FLUX(2, "flux", 7, EnumRarity.UNCOMMON);
 		// MANA(3, "mana", 10, EnumRarity.RARE);
-		// @formatter: on
+		// @formatter:on
 
 		private static final Type[] METADATA_LOOKUP = new Type[values().length];
 		private final int metadata;
