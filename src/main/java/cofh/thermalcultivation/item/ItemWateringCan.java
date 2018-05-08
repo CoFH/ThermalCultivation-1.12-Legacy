@@ -476,11 +476,11 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		addColorRecipe(wateringCanSignalum, wateringCanSignalum, "dye");
 		addColorRecipe(wateringCanResonant, wateringCanResonant, "dye");
 
-		addColorRemoveRecipe(wateringCanBasic, wateringCanBasic, new FluidIngredient("water"));
-		addColorRemoveRecipe(wateringCanHardened, wateringCanHardened, new FluidIngredient("water"));
-		addColorRemoveRecipe(wateringCanReinforced, wateringCanReinforced, new FluidIngredient("water"));
-		addColorRemoveRecipe(wateringCanSignalum, wateringCanSignalum, new FluidIngredient("water"));
-		addColorRemoveRecipe(wateringCanResonant, wateringCanResonant, new FluidIngredient("water"));
+		addColorRemoveRecipe(wateringCanBasic, wateringCanBasic);
+		addColorRemoveRecipe(wateringCanHardened, wateringCanHardened);
+		addColorRemoveRecipe(wateringCanReinforced, wateringCanReinforced);
+		addColorRemoveRecipe(wateringCanSignalum, wateringCanSignalum);
+		addColorRemoveRecipe(wateringCanResonant, wateringCanResonant);
 		return true;
 	}
 

@@ -25,12 +25,12 @@ public class TCItems {
 
 		// TODO: Seed bag.
 		itemWateringCan = new ItemWateringCan();
-		//		itemScythe = new ItemScythe();
-		//		itemSeedBag = new ItemSeedBag();
+		// itemScythe = new ItemScythe();
+		// itemSeedBag = new ItemSeedBag();
 
 		initList.add(itemWateringCan);
-		//		initList.add(itemScythe);
-		//		initList.add(itemSeedBag);
+		// initList.add(itemScythe);
+		// initList.add(itemSeedBag);
 
 		for (IInitializer init : initList) {
 			init.preInit();

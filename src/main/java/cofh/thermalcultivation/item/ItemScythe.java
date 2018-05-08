@@ -1,7 +1,5 @@
 package cofh.thermalcultivation.item;
 
-import cofh.api.item.IMultiModeItem;
-import cofh.api.item.INBTCopyIngredient;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.init.CoreProps;
 import cofh.core.item.ItemMultiRF;
@@ -18,6 +16,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
@@ -37,14 +36,14 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeItem, INBTCopyIngredient {
+public class ItemScythe extends ItemMultiRF implements IInitializer {
 
 	public ItemScythe() {
 
 		super("thermalcultivation");
 
 		setUnlocalizedName("scythe");
-		setCreativeTab(ThermalCultivation.tabUtils);
+		setCreativeTab(ThermalCultivation.tabTools);
 
 		setHasSubtypes(true);
 		setMaxStackSize(1);
@@ -99,6 +98,17 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 	}
 
 	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+
+		if (EnumEnchantmentType.BREAKABLE.equals(enchantment.type)) {
+			return enchantment.equals(Enchantments.UNBREAKING);
+		} else if (EnumEnchantmentType.DIGGER.equals(enchantment.type)) {
+			return enchantment.equals(Enchantments.FORTUNE);
+		}
+		return !EnumEnchantmentType.BREAKABLE.equals(enchantment.type) && super.canApplyAtEnchantingTable(stack, enchantment);
+	}
+
+	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
 		World world = player.world;
@@ -136,6 +146,12 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public int getItemEnchantability(ItemStack stack) {
+
+		return getEnchantability(stack);
 	}
 
 	/* HELPERS */
@@ -246,6 +262,14 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		return typeMap.get(metadata).capacity;
 	}
 
+	public int getEnchantability(ItemStack stack) {
+
+		if (!typeMap.containsKey(ItemHelper.getItemDamage(stack))) {
+			return 0;
+		}
+		return typeMap.get(ItemHelper.getItemDamage(stack)).enchantability;
+	}
+
 	public int getMaxRadius(int metadata) {
 
 		if (!typeMap.containsKey(metadata)) {
@@ -275,13 +299,6 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		ChatHelper.sendIndexedChatMessageToPlayer(player, new TextComponentTranslation("info.cofh.area").appendText(": " + radius + "x" + radius));
 	}
 
-	/* IEnchantableItem */
-	@Override
-	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
-
-		return ItemHelper.getItemDamage(stack) != CREATIVE && enchantment == CoreEnchantments.holding;
-	}
-
 	/* IInitializer */
 	@Override
 	public boolean preInit() {
@@ -291,13 +308,13 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 		config();
 
-		scytheBasic = addEntryItem(0, "standard0", CAPACITY[0], XFER[0], 1, EnumRarity.COMMON);
-		scytheHardened = addEntryItem(1, "standard1", CAPACITY[1], XFER[1], 2, EnumRarity.COMMON);
-		scytheReinforced = addEntryItem(2, "standard2", CAPACITY[2], XFER[2], 3, EnumRarity.UNCOMMON);
-		scytheSignalum = addEntryItem(3, "standard3", CAPACITY[3], XFER[3], 4, EnumRarity.UNCOMMON);
-		scytheResonant = addEntryItem(4, "standard4", CAPACITY[4], XFER[4], 5, EnumRarity.RARE);
+		scytheBasic = addEntryItem(0, "standard0", ENCHANTABILITY[0], CAPACITY[0], XFER[0], 1, EnumRarity.COMMON);
+		scytheHardened = addEntryItem(1, "standard1", ENCHANTABILITY[1], CAPACITY[1], XFER[1], 2, EnumRarity.COMMON);
+		scytheReinforced = addEntryItem(2, "standard2", ENCHANTABILITY[2], CAPACITY[2], XFER[2], 3, EnumRarity.UNCOMMON);
+		scytheSignalum = addEntryItem(3, "standard3", ENCHANTABILITY[3], CAPACITY[3], XFER[3], 4, EnumRarity.UNCOMMON);
+		scytheResonant = addEntryItem(4, "standard4", ENCHANTABILITY[4], CAPACITY[4], XFER[4], 5, EnumRarity.RARE);
 
-		scytheCreative = addEntryItem(CREATIVE, "creative", XFER[0], CAPACITY[4], 5, EnumRarity.EPIC);
+		scytheCreative = addEntryItem(CREATIVE, "creative", ENCHANTABILITY[4], CAPACITY[4], 0, 5, EnumRarity.EPIC);
 
 		return true;
 	}
@@ -331,12 +348,12 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 		enable = ThermalCultivation.CONFIG.get(category, "Enable", true);
 
 		int capacity = CAPACITY_BASE;
-		comment = "Adjust this value to change the amount of Energy (in RF) stored by a Basic Flux Scythe. This base value will scale with item level.";
-		capacity = ThermalCultivation.CONFIG.getConfiguration().getInt("BaseCapacity", category, capacity, capacity / 5, capacity * 5, comment);
+		comment = "Adjust this value to change the amount of Energy (in RF) stored by a Basic Harvest Scythe. This base value will scale with item level.";
+		capacity = ThermalCultivation.CONFIG.getConfiguration().getInt("BaseCapacity", category, capacity, CAPACITY_MIN, CAPACITY_MAX, comment);
 
 		int xfer = XFER_BASE;
-		comment = "Adjust this value to change the amount of Energy (in RF/t) that can be received by a Basic Flux Scythe. This base value will scale with item level.";
-		xfer = ThermalCultivation.CONFIG.getConfiguration().getInt("BaseReceive", category, xfer, xfer / 10, xfer * 10, comment);
+		comment = "Adjust this value to change the amount of Energy (in RF/t) that can be received by a Basic Harvest Scythe. This base value will scale with item level.";
+		xfer = ThermalCultivation.CONFIG.getConfiguration().getInt("BaseReceive", category, xfer, XFER_MIN, XFER_MAX, comment);
 
 		for (int i = 0; i < CAPACITY.length; i++) {
 			CAPACITY[i] *= capacity;
@@ -349,27 +366,30 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 		public final String name;
 
+		public final int enchantability;
+
 		public final int capacity;
 		public final int recv;
 		public final int radius;
 
-		TypeEntry(String name, int capacity, int recv, int radius) {
+		TypeEntry(String name, int enchantability, int capacity, int recv, int radius) {
 
 			this.name = name;
+			this.enchantability = enchantability;
 			this.capacity = capacity;
 			this.recv = recv;
 			this.radius = radius;
 		}
 	}
 
-	private void addEntry(int metadata, String name, int capacity, int xfer, int radius) {
+	private void addEntry(int metadata, String name, int enchantability, int capacity, int xfer, int radius) {
 
-		typeMap.put(metadata, new TypeEntry(name, capacity, xfer, radius));
+		typeMap.put(metadata, new TypeEntry(name, enchantability, capacity, xfer, radius));
 	}
 
-	private ItemStack addEntryItem(int metadata, String name, int capacity, int xfer, int radius, EnumRarity rarity) {
+	private ItemStack addEntryItem(int metadata, String name, int enchantability, int capacity, int xfer, int radius, EnumRarity rarity) {
 
-		addEntry(metadata, name, capacity, xfer, radius);
+		addEntry(metadata, name, enchantability, capacity, xfer, radius);
 		return addItem(metadata, name, rarity);
 	}
 
@@ -377,7 +397,9 @@ public class ItemScythe extends ItemMultiRF implements IInitializer, IMultiModeI
 
 	public static final int CAPACITY_BASE = 20000;
 	public static final int XFER_BASE = 1000;
-	public static final int ENERGY_PER_USE = 200;
+	public static final int ENERGY_PER_USE = 50;
+
+	public static final int[] ENCHANTABILITY = { 10, 10, 15, 15, 20 };
 
 	public static final int[] CAPACITY = { 1, 3, 6, 10, 15 };
 	public static final int[] XFER = { 1, 4, 9, 16, 25 };
