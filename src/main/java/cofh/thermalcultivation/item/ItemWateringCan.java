@@ -11,10 +11,10 @@ import cofh.core.key.KeyBindingItemMultiMode;
 import cofh.core.util.RayTracer;
 import cofh.core.util.capabilities.FluidContainerItemWrapper;
 import cofh.core.util.core.IInitializer;
-import cofh.core.util.crafting.FluidIngredientFactory.FluidIngredient;
 import cofh.core.util.helpers.*;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalfoundation.init.TFProps;
+import cofh.thermalfoundation.item.ItemFertilizer;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
@@ -114,7 +114,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 
-		if (isInCreativeTab(tab)) {
+		if (enable && isInCreativeTab(tab)) {
 			for (int metadata : itemList) {
 				if (metadata != CREATIVE) {
 					if (TFProps.showEmptyItems) {
@@ -467,6 +467,42 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 				" I ",
 				'I', "ingotCopper",
 				'X', Items.BUCKET
+		);
+		addShapedUpgradeRecipe(wateringCanHardened,
+				" R ",
+				"IXI",
+				"RYR",
+				'I', "ingotInvar",
+				'R', new ItemStack(Items.DYE, 1, 15),
+				'X', wateringCanBasic,
+				'Y', "dustRedstone"
+		);
+		addShapedUpgradeRecipe(wateringCanReinforced,
+				" R ",
+				"IXI",
+				"RYR",
+				'I', "ingotElectrum",
+				'R', ItemFertilizer.fertilizerBasic,
+				'X', wateringCanHardened,
+				'Y', "blockGlassHardened"
+		);
+		addShapedUpgradeRecipe(wateringCanSignalum,
+				" R ",
+				"IXI",
+				"RYR",
+				'I', "ingotSignalum",
+				'R', ItemFertilizer.fertilizerRich,
+				'X', wateringCanReinforced,
+				'Y', "dustCryotheum"
+		);
+		addShapedUpgradeRecipe(wateringCanResonant,
+				" R ",
+				"IXI",
+				"RYR",
+				'I', "ingotEnderium",
+				'R', ItemFertilizer.fertilizerFlux,
+				'X', wateringCanSignalum,
+				'Y', "dustPyrotheum"
 		);
 		// @formatter:on
 

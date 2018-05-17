@@ -36,8 +36,12 @@ public class TCItems {
 			init.preInit();
 		}
 		for (int i = 0; i < 5; i++) {
-			ItemStack iconStack = new ItemStack(itemWateringCan, 1, 1);
-			TFProps.toolList.add(iconStack.copy());
+			ItemStack iconStack;
+
+			if (ItemWateringCan.enable) {
+				iconStack = new ItemStack(itemWateringCan, 1, 1);
+				TFProps.toolList.add(iconStack.copy());
+			}
 		}
 		MinecraftForge.EVENT_BUS.register(INSTANCE);
 	}
