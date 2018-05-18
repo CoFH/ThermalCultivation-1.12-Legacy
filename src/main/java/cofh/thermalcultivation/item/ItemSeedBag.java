@@ -15,7 +15,7 @@ import cofh.core.util.helpers.*;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalcultivation.gui.GuiHandler;
 import cofh.thermalfoundation.init.TFProps;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -424,7 +424,7 @@ public class ItemSeedBag extends ItemMulti implements IInitializer, IMultiModeIt
 		return addItem(metadata, name, rarity);
 	}
 
-	private static TIntObjectHashMap<TypeEntry> typeMap = new TIntObjectHashMap<>();
+	private static Int2ObjectOpenHashMap<TypeEntry> typeMap = new Int2ObjectOpenHashMap<>();
 	private static HashMap<Item, Integer> colorMap = new HashMap<>();
 
 	public static final int CREATIVE = 32000;

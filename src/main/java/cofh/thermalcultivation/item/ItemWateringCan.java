@@ -15,7 +15,7 @@ import cofh.core.util.helpers.*;
 import cofh.thermalcultivation.ThermalCultivation;
 import cofh.thermalfoundation.init.TFProps;
 import cofh.thermalfoundation.item.ItemFertilizer;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.BlockLiquid;
@@ -570,7 +570,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		return addItem(metadata, name, rarity);
 	}
 
-	private static TIntObjectHashMap<TypeEntry> typeMap = new TIntObjectHashMap<>();
+	private static Int2ObjectOpenHashMap<TypeEntry> typeMap = new Int2ObjectOpenHashMap<>();
 
 	public static final int CAPACITY_BASE = 4000;
 
