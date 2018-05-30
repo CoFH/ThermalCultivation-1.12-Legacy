@@ -1,8 +1,10 @@
 package cofh.thermalcultivation.block;
 
 import cofh.core.block.BlockCore;
+import cofh.core.block.ItemBlockCore;
 import cofh.core.render.IModelRegister;
 import cofh.core.util.core.IInitializer;
+import cofh.core.util.helpers.ItemHelper;
 import cofh.thermalcultivation.ThermalCultivation;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -63,16 +65,28 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
 
-		//		for (int i = 0; i < Type.METADATA_LOOKUP.length; i++) {
+		//		for (int i = 0; i < Type.values().length; i++) {
 		//			items.add(new ItemStack(this, 1, i));
 		//		}
 	}
 
 	/* TYPE METHODS */
 	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+
+		return "tile.thermalcultivation.soil." + Type.values()[ItemHelper.getItemDamage(stack)].getName() + ".name";
+	}
+
+	@Override
+	public EnumRarity getRarity(ItemStack stack) {
+
+		return Type.values()[ItemHelper.getItemDamage(stack)].getRarity();
+	}
+
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 
-		return getDefaultState().withProperty(VARIANT, Type.byMetadata(meta & 7)).withProperty(TILLED, meta > 7);
+		return getDefaultState().withProperty(VARIANT, Type.values()[meta & 7]).withProperty(TILLED, meta > 7);
 	}
 
 	@Override
@@ -212,7 +226,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 	public void registerModels() {
 
 		for (int i = 0; i < Type.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation(modName + ":" + name, "tilled=false,type=" + Type.byMetadata(i).getName()));
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation(modName + ":" + name, "tilled=false,type=" + Type.values()[i].getName()));
 		}
 	}
 
@@ -223,7 +237,7 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		this.setRegistryName("soil");
 		ForgeRegistries.BLOCKS.register(this);
 
-		ItemBlockSoil itemBlock = new ItemBlockSoil(this);
+		ItemBlockCore itemBlock = new ItemBlockCore(this);
 		itemBlock.setRegistryName(this.getRegistryName());
 		ForgeRegistries.ITEMS.register(itemBlock);
 
@@ -261,7 +275,6 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		// MANA(3, "mana", 10, EnumRarity.RARE);
 		// @formatter:on
 
-		private static final Type[] METADATA_LOOKUP = new Type[values().length];
 		private final int metadata;
 		private final String name;
 		private final int light;
@@ -304,20 +317,6 @@ public class BlockSoil extends BlockCore implements IInitializer, IModelRegister
 		public EnumRarity getRarity() {
 
 			return this.rarity;
-		}
-
-		public static Type byMetadata(int metadata) {
-
-			if (metadata < 0 || metadata >= METADATA_LOOKUP.length) {
-				metadata = 0;
-			}
-			return METADATA_LOOKUP[metadata];
-		}
-
-		static {
-			for (Type type : values()) {
-				METADATA_LOOKUP[type.getMetadata()] = type;
-			}
 		}
 	}
 
