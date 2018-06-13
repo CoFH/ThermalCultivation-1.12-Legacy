@@ -15,9 +15,6 @@ public class EventHandler {
 	@SubscribeEvent
 	public void handleEntityItemPickup(EntityItemPickupEvent event) {
 
-		if (event.isCanceled()) {
-			return;
-		}
 		EntityPlayer player = event.getEntityPlayer();
 		if (player.openContainer instanceof ContainerSeedBag) {
 			return;
