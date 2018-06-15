@@ -187,7 +187,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 		if (stack.getTagCompound() == null) {
 			setDefaultTag(stack, 0);
 		}
-		return 1.0D - ((double) stack.getTagCompound().getInteger(CoreProps.WATER) / (double) getCapacity(stack));
+		return MathHelper.clamp(1.0D - ((double) stack.getTagCompound().getInteger(CoreProps.WATER) / (double) getCapacity(stack)), 0.0D, 1.0D);
 	}
 
 	@Override
