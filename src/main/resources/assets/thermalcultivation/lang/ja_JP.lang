@@ -1,8 +1,19 @@
 #en_US
 
-info.thermalcultivation.watering_can.a.0=農地を灌漑し、農作物の成長を促します
-info.thermalcultivation.watering_can.b.0=§e%sを押下すると範囲内に水を撒きます§r
-info.thermalcultivation.watering_can.b.1=スニーク中に水を集める場合があります
+info.thermalcultivation.scythe.a.0=成熟しきった農作物を収穫します。
+info.thermalcultivation.scythe.b.0=§e%sを押下すると範囲を変更できます。§r
+
+info.thermalcultivation.seed_bag.a.0=種を集め、植えることが出来ます。
+info.thermalcultivation.seed_bag.b.0=§e%sを押下すると範囲を変更できます。§r
+
+info.thermalcultivation.watering_can.a.0=農地を灌漑し、農作物の成長を促します。
+info.thermalcultivation.watering_can.b.0=§e%sを押下すると範囲内に水を撒きます。§r
+info.thermalcultivation.watering_can.b.1=スニーク中に水を集める場合があります。
+
+tab.thermalcultivation.storage.satchel.0=種を集め、植えることが出来ます。
+tab.thermalcultivation.storage.satchel.1=一度に一種類の種だけを集めます。
+
+tab.thermalcultivation.storage.enchant=容量をエンチャントによって増やせます。
 
 item.thermalcultivation.watering_can.creative.name=ジョウロ (クリエイティブ)
 item.thermalcultivation.watering_can.standard0.name=ジョウロ (ベーシック)
@@ -11,8 +22,23 @@ item.thermalcultivation.watering_can.standard2.name=ジョウロ (レインフ�
 item.thermalcultivation.watering_can.standard3.name=ジョウロ (シグナルム)
 item.thermalcultivation.watering_can.standard4.name=ジョウロ (レゾナント)
 
-itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
+item.thermalcultivation.seed_bag.name=種袋
+item.thermalcultivation.seed_bag.creative.name=種袋 (クリエイティブ)
+item.thermalcultivation.seed_bag.standard0.name=種袋 (ベーシック)
+item.thermalcultivation.seed_bag.standard1.name=種袋 (ハーデンド)
+item.thermalcultivation.seed_bag.standard2.name=種袋 (レインフォースト)
+item.thermalcultivation.seed_bag.standard3.name=種袋 (シグナルム)
+item.thermalcultivation.seed_bag.standard4.name=種袋 (レゾナント)
 
+item.thermalcultivation.scythe.creative.name=収穫鎌 (クリエイティブ)
+item.thermalcultivation.scythe.standard0.name=収穫鎌 (ベーシック)
+item.thermalcultivation.scythe.standard1.name=収穫鎌 (ハーデンド)
+item.thermalcultivation.scythe.standard2.name=収穫鎌 (レインフォースト)
+item.thermalcultivation.scythe.standard3.name=収穫鎌 (シグナルム)
+item.thermalcultivation.scythe.standard4.name=収穫鎌 (レゾナント)
+
+itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
+# Note! Below 3 entries are pending to translate till be implemented.
 tile.thermalcultivation.soil.basic.name=Phyto-Soil (Not Implemented)
 tile.thermalcultivation.soil.flux.name=Fluxed Phyto-Soil (Not Implemented)
 tile.thermalcultivation.soil.rich.name=Rich Phyto-Soil (Not Implemented)
