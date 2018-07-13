@@ -30,12 +30,12 @@ item.thermalcultivation.seed_bag.standard2.name=种子包(强化)
 item.thermalcultivation.seed_bag.standard3.name=种子包(信素)
 item.thermalcultivation.seed_bag.standard4.name=种子包(谐振)
 
-item.thermalcultivation.scythe.creative.name=Harvest Scythe (创造)
-item.thermalcultivation.scythe.standard0.name=Harvest Scythe (基础)
-item.thermalcultivation.scythe.standard1.name=Harvest Scythe (硬化)
-item.thermalcultivation.scythe.standard2.name=Harvest Scythe (加强)
-item.thermalcultivation.scythe.standard3.name=Harvest Scythe (信素)
-item.thermalcultivation.scythe.standard4.name=Harvest Scythe (谐振)
+item.thermalcultivation.scythe.creative.name=收割镰刀(创造)
+item.thermalcultivation.scythe.standard0.name=收割镰刀(基础)
+item.thermalcultivation.scythe.standard1.name=收割镰刀(硬化)
+item.thermalcultivation.scythe.standard2.name=收割镰刀(加强)
+item.thermalcultivation.scythe.standard3.name=收割镰刀(信素)
+item.thermalcultivation.scythe.standard4.name=收割镰刀(谐振)
 
 itemGroup.thermalcultivation.creativeTab=热力农业
 
