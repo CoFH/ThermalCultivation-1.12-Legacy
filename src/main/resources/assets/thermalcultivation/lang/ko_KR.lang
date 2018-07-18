@@ -1,0 +1,44 @@
+#ko_KR
+
+info.thermalcultivation.scythe.a.0=농작물이 충분히 자랐습니다.
+info.thermalcultivation.scythe.b.0=§e(%s)을 눌러 영역을 조정하세요.§r
+
+info.thermalcultivation.seed_bag.a.0=씨앗을 저장하고 심습니다.
+info.thermalcultivation.seed_bag.b.0=§e(%s)을 눌러 영역을 조정하세요.§r
+
+info.thermalcultivation.watering_can.a.0=농지를 확대하고 식물의 성장을 가속화합니다.
+info.thermalcultivation.watering_can.b.0=§e(%s)을 눌러 영역을 조정하세요.§r
+info.thermalcultivation.watering_can.c.0=기습적으로 물을 모을 수 있습니다.
+
+tab.thermalcultivation.storage.satchel.0=씨앗을 모으고 심습니다.
+tab.thermalcultivation.storage.satchel.1=한번에 한가지 유형의 씨앗만 저장합니다.
+
+tab.thermalcultivation.storage.enchant=저장소 용량 증가에 인첸트될 수 있습니다.
+
+item.thermalcultivation.watering_can.creative.name=크리에이티브 물뿌리개
+item.thermalcultivation.watering_can.standard0.name=물뿌리개
+item.thermalcultivation.watering_can.standard1.name=경화 물뿌리개
+item.thermalcultivation.watering_can.standard2.name=강화 물뿌리개
+item.thermalcultivation.watering_can.standard3.name=시그날륨 물뿌리개
+item.thermalcultivation.watering_can.standard4.name=공명 물뿌리개
+
+item.thermalcultivation.seed_bag.name=씨앗 봉투
+item.thermalcultivation.seed_bag.creative.name=크리에이티브 씨앗 봉투
+item.thermalcultivation.seed_bag.standard0.name=씨앗 봉투
+item.thermalcultivation.seed_bag.standard1.name=경화 씨앗 봉투
+item.thermalcultivation.seed_bag.standard2.name=강화 씨앗 봉투
+item.thermalcultivation.seed_bag.standard3.name=시그날륨 씨앗 봉투
+item.thermalcultivation.seed_bag.standard4.name=공명 씨앗 봉투
+
+item.thermalcultivation.scythe.creative.name=크리에이티브 수확낫
+item.thermalcultivation.scythe.standard0.name=수확낫
+item.thermalcultivation.scythe.standard1.name=경화 수확낫
+item.thermalcultivation.scythe.standard2.name=강화 수확낫
+item.thermalcultivation.scythe.standard3.name=시그날륨 수확낫
+item.thermalcultivation.scythe.standard4.name=공명 수확낫
+
+itemGroup.thermalcultivation.creativeTab=써멀 컬티베이션
+
+tile.thermalcultivation.soil.basic.name=파이토 흙
+tile.thermalcultivation.soil.flux.name=흐르는 파이토 흙
+tile.thermalcultivation.soil.rich.name=풍부한 파이토 
