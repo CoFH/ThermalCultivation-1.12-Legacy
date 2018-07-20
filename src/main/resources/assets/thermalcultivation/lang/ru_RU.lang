@@ -1,0 +1,44 @@
+#ru_RU
+
+info.thermalcultivation.scythe.a.0=Собирает полностью выросшие культуры.
+info.thermalcultivation.scythe.b.0=§eНажмите (%s), чтобы регулировать зону.§r
+
+info.thermalcultivation.seed_bag.a.0=Хранит и сажает семена.
+info.thermalcultivation.seed_bag.b.0=§eНажмите (%s), чтобы регулировать зону.§r
+
+info.thermalcultivation.watering_can.a.0=Орошает посевы и ускоряет рост растений.
+info.thermalcultivation.watering_can.b.0=§eНажмите (%s), чтобы регулировать зону.§r
+info.thermalcultivation.watering_can.c.0=Вода может быть собрана во время приседания.
+
+tab.thermalcultivation.storage.satchel.0=Собирает и сажает семена.
+tab.thermalcultivation.storage.satchel.1=Хранит только один вид семян.
+
+tab.thermalcultivation.storage.enchant=Может быть зачарованно для увеличения ёмкости хранилища.
+
+item.thermalcultivation.watering_can.creative.name=Лейка (творческая)
+item.thermalcultivation.watering_can.standard0.name=Лейка (основная)
+item.thermalcultivation.watering_can.standard1.name=Лейка (усиленная)
+item.thermalcultivation.watering_can.standard2.name=Лейка (укреплённая)
+item.thermalcultivation.watering_can.standard3.name=Лейка (синаловая)
+item.thermalcultivation.watering_can.standard4.name=Лейка (резонирующая)
+
+item.thermalcultivation.seed_bag.name=Сумка для семян
+item.thermalcultivation.seed_bag.creative.name=Сумка для семян (творческая)
+item.thermalcultivation.seed_bag.standard0.name=Сумка для семян (основная)
+item.thermalcultivation.seed_bag.standard1.name=Сумка для семян (усиленная)
+item.thermalcultivation.seed_bag.standard2.name=Сумка для семян (укреплённая)
+item.thermalcultivation.seed_bag.standard3.name=Сумка для семян (синаловая)
+item.thermalcultivation.seed_bag.standard4.name=Сумка для семян (резонирующая)
+
+item.thermalcultivation.scythe.creative.name=Коса (творческая)
+item.thermalcultivation.scythe.standard0.name=Коса (основная)
+item.thermalcultivation.scythe.standard1.name=Коса (усиленная)
+item.thermalcultivation.scythe.standard2.name=Коса (укреплённая)
+item.thermalcultivation.scythe.standard3.name=Коса (синаловая)
+item.thermalcultivation.scythe.standard4.name=Коса (резонирующая)
+
+itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
+
+tile.thermalcultivation.soil.basic.name=Фито-почва (Не реализовано)
+tile.thermalcultivation.soil.flux.name=Флаксовая фито-почва (Не реализовано)
+tile.thermalcultivation.soil.rich.name=Богатая фито-почва (Не реализовано)
