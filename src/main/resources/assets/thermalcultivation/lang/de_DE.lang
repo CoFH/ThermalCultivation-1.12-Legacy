@@ -1,0 +1,44 @@
+#de_DE
+
+info.thermalcultivation.scythe.a.0=Erntet gewachsene Pflanzen.
+info.thermalcultivation.scythe.b.0=§eDrücke (%s) um den Arbeitsbereich einzustellen.§r
+
+info.thermalcultivation.seed_bag.a.0=Speichert und pflanzt Samen.
+info.thermalcultivation.seed_bag.b.0=§eDrücke (%s) um den Arbeitsbereich einzustellen.§r
+
+info.thermalcultivation.watering_can.a.0=Bewässert Ackerboden und beschleunigt das Pflanzenwachstum.
+info.thermalcultivation.watering_can.b.0=§eDrücke (%s) um den Arbeitsbereich einzustellen.§r
+info.thermalcultivation.watering_can.c.0=Drücke SHIFT um Wasser aufzufüllen.
+
+tab.thermalcultivation.storage.satchel.0=Speichert und pflanzt Samen.
+tab.thermalcultivation.storage.satchel.1=Speichert nur eine Art Samen zur gleichen Zeit.
+
+tab.thermalcultivation.storage.enchant=Kann verzaubert werden um den Platz zu vergrößern.
+
+item.thermalcultivation.watering_can.creative.name=Gießkanne (Kreativ)
+item.thermalcultivation.watering_can.standard0.name=Gießkanne (Basis)
+item.thermalcultivation.watering_can.standard1.name=Gießkanne (Gehärtet)
+item.thermalcultivation.watering_can.standard2.name=Gießkanne (Verstärkt)
+item.thermalcultivation.watering_can.standard3.name=Gießkanne (Signalum)
+item.thermalcultivation.watering_can.standard4.name=Gießkanne (Resonant)
+
+item.thermalcultivation.seed_bag.name=Samenbeutel
+item.thermalcultivation.seed_bag.creative.name=Samenbeutel (Kreativ)
+item.thermalcultivation.seed_bag.standard0.name=Samenbeutel (Basis)
+item.thermalcultivation.seed_bag.standard1.name=Samenbeutel (Gehärtet)
+item.thermalcultivation.seed_bag.standard2.name=Samenbeutel (Verstärkt)
+item.thermalcultivation.seed_bag.standard3.name=Samenbeutel (Signalum)
+item.thermalcultivation.seed_bag.standard4.name=Samenbeutel (Resonant)
+
+item.thermalcultivation.scythe.creative.name=Erntesense (Kreativ)
+item.thermalcultivation.scythe.standard0.name=Erntesense (Basis)
+item.thermalcultivation.scythe.standard1.name=Erntesense (Gehärtet)
+item.thermalcultivation.scythe.standard2.name=Erntesense (Verstärkt)
+item.thermalcultivation.scythe.standard3.name=Erntesense (Signalum)
+item.thermalcultivation.scythe.standard4.name=Erntesense (Resonant)
+
+itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
+
+tile.thermalcultivation.soil.basic.name=Phyto-Soil (Nicht implementiert)
+tile.thermalcultivation.soil.flux.name=Fluxierendes Phyto-Soil (Nicht implementiert)
+tile.thermalcultivation.soil.rich.name=Reichhaltiges Phyto-Soil (Nicht implementiert)
