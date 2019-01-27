@@ -220,7 +220,7 @@ public class ItemWateringCan extends ItemMulti implements IInitializer, IColorab
 
 		RayTraceResult traceResult = RayTracer.retrace(player, true);
 
-		if (traceResult == null || traceResult.sideHit == null || player.isSneaking() || player instanceof FakePlayer && !allowFakePlayers) {
+		if (traceResult == null || traceResult.sideHit == null || player instanceof FakePlayer && !allowFakePlayers) {
 			return EnumActionResult.FAIL;
 		}
 		ItemStack stack = player.getHeldItem(hand);
