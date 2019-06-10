@@ -8,7 +8,7 @@ info.thermalcultivation.seed_bag.b.0=§e%sを押下すると範囲を変更で�
 
 info.thermalcultivation.watering_can.a.0=農地を灌漑し、農作物の成長を促します。
 info.thermalcultivation.watering_can.b.0=§e%sを押下すると範囲内に水を撒きます。§r
-info.thermalcultivation.watering_can.b.1=スニーク中に水を集める場合があります。
+info.thermalcultivation.watering_can.c.0=スニーク中に水を集める場合があります。
 
 tab.thermalcultivation.storage.satchel.0=種を集め、植えることが出来ます。
 tab.thermalcultivation.storage.satchel.1=一度に一種類の種だけを集めます。
