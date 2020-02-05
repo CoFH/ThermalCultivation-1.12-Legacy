@@ -19,7 +19,7 @@ item.thermalcultivation.watering_can.creative.name=ジョウロ (クリエイテ
 item.thermalcultivation.watering_can.standard0.name=ジョウロ (ベーシック)
 item.thermalcultivation.watering_can.standard1.name=ジョウロ (ハーデンド)
 item.thermalcultivation.watering_can.standard2.name=ジョウロ (レインフォースト)
-item.thermalcultivation.watering_can.standard3.name=ジョウロ (シグナルム)
+item.thermalcultivation.watering_can.standard3.name=ジョウロ (シグナラム)
 item.thermalcultivation.watering_can.standard4.name=ジョウロ (レゾナント)
 
 item.thermalcultivation.seed_bag.name=種袋
@@ -27,14 +27,14 @@ item.thermalcultivation.seed_bag.creative.name=種袋 (クリエイティブ)
 item.thermalcultivation.seed_bag.standard0.name=種袋 (ベーシック)
 item.thermalcultivation.seed_bag.standard1.name=種袋 (ハーデンド)
 item.thermalcultivation.seed_bag.standard2.name=種袋 (レインフォースト)
-item.thermalcultivation.seed_bag.standard3.name=種袋 (シグナルム)
+item.thermalcultivation.seed_bag.standard3.name=種袋 (シグナラム)
 item.thermalcultivation.seed_bag.standard4.name=種袋 (レゾナント)
 
 item.thermalcultivation.scythe.creative.name=収穫鎌 (クリエイティブ)
 item.thermalcultivation.scythe.standard0.name=収穫鎌 (ベーシック)
 item.thermalcultivation.scythe.standard1.name=収穫鎌 (ハーデンド)
 item.thermalcultivation.scythe.standard2.name=収穫鎌 (レインフォースト)
-item.thermalcultivation.scythe.standard3.name=収穫鎌 (シグナルム)
+item.thermalcultivation.scythe.standard3.name=収穫鎌 (シグナラム)
 item.thermalcultivation.scythe.standard4.name=収穫鎌 (レゾナント)
 
 itemGroup.thermalcultivation.creativeTab=Thermal Cultivation
